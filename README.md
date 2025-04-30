@@ -17,9 +17,15 @@ A real example for a Smart City.
 
 ## 📖 &nbsp;Library
 <ul>
+<li>pip install django-cors-headers </li>
+<li>pip install djangorestframework-simplejwt </li>
+<li>pip install djangorestframework </li>
+<li>pip install django </li>
 <li>npm install react-router-dom </li>
 <li>npm i react-icons </li>
 <li>npm install lucide-react</li>
 <li>npm install axios</li>
 <li>npm install react-loading-icons</li>
+<li>npm install xlsx</li>
+<li>npm install tailwindcss @tailwindcss/vite</li>
 </ul>
