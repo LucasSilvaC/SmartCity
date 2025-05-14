@@ -1,9 +1,0 @@
-@import "tailwindcss";
-
-body {
-    font-family: 'Nunito';
-}
-
-html, body, #root {
-    @apply w-full h-full m-0 p-0 overflow-hidden;
-  }
