@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+body {
+     font-family: 'Poppins';
+}
+
+span{
+     font-family: 'Press Start 2P', cursive;
+}
+
+html, body, #root {
+    @apply w-full h-full m-0 p-0 overflow-hidden;
+  }
