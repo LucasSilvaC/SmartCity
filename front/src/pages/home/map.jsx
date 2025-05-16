@@ -10,8 +10,8 @@ function Map({ children }) {
   const larguraTotal = larguraImagem * 2 * fatorZoom;
   const alturaTotal = alturaImagem * 2 * fatorZoom;
 
-  const larguraJanela = window.innerWidth;
-  const alturaJanela = window.innerHeight;
+  const [larguraJanela, setLarguraJanela] = useState(window.innerWidth);
+  const [alturaJanela, setAlturaJanela] = useState(window.innerHeight);
 
   const [posicao, setPosicao] = useState({ x: 0, y: 0 });
   const posicaoRef = useRef(posicao);
@@ -23,6 +23,15 @@ function Map({ children }) {
   useEffect(() => {
     setPosicao({ x: 0, y: 0 });
     posicaoRef.current = { x: 0, y: 0 };
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setLarguraJanela(window.innerWidth);
+      setAlturaJanela(window.innerHeight);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -43,8 +52,11 @@ function Map({ children }) {
       if (teclasAtivas.current["ArrowLeft"]) novaX -= velocidade;
       if (teclasAtivas.current["ArrowRight"]) novaX += velocidade;
 
-      novaX = Math.max(0, Math.min(novaX, larguraTotal - larguraJanela));
-      novaY = Math.max(0, Math.min(novaY, alturaTotal - alturaJanela));
+      const limiteX = Math.max(0, larguraTotal - larguraJanela);
+      const limiteY = Math.max(0, alturaTotal - alturaJanela);
+
+      novaX = Math.min(Math.max(novaX, 0), limiteX);
+      novaY = Math.min(Math.max(novaY, 0), limiteY);
 
       const novaPos = { x: novaX, y: novaY };
       posicaoRef.current = novaPos;
@@ -62,7 +74,7 @@ function Map({ children }) {
       window.removeEventListener("keyup", soltarTecla);
       cancelAnimationFrame(animFrame.current);
     };
-  }, []);
+  }, [larguraJanela, alturaJanela]); 
 
   return (
     <div

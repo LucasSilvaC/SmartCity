@@ -42,6 +42,22 @@ class CriarUsuarioAPIView(APIView):
             'access_token': str(refresh.access_token)
         }, status=status.HTTP_201_CREATED)
 
+# Reset password
+class ResetPasswordAPIView(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        new_password = request.data.get('new_password')
+
+        if not username or not new_password:
+            return Response({'erro': 'Usuário e nova senha são obrigatórios'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(username=username)
+            user.set_password(new_password)
+            user.save()
+            return Response({'mensagem': 'Senha redefinida com sucesso!'}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'erro': 'Usuário não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 # Sensor Views
 class SensorListCreateView(ListCreateAPIView):

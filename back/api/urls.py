@@ -6,7 +6,7 @@ from .views import (
     HistoricoTemperaturaListCreateView, HistoricoTemperaturaDetailView,
     HistoricoUmidadeListCreateView, HistoricoUmidadeDetailView,
     HistoricoLuminosidadeListCreateView, HistoricoLuminosidadeDetailView,
-    HistoricoContadorListCreateView, HistoricoContadorDetailView,
+    HistoricoContadorListCreateView, HistoricoContadorDetailView, ResetPasswordAPIView
 )
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -18,6 +18,7 @@ urlpatterns = [
     path('token/', TokenObtainPairView.as_view()),
     path('token/refresh/', TokenRefreshView.as_view()),
     path('register/', CriarUsuarioAPIView.as_view()),
+    path('redefinir_senha/', ResetPasswordAPIView.as_view()),
 
    # Sensor
     path('sensores/', SensorListCreateView.as_view()),

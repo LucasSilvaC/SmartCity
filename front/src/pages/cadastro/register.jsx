@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { Bars } from "react-loading-icons";
-import Logo from '../../assets/SmartCity_Logo.png';
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import Logo from "../../assets/SmartCity_Logo.png";
+import BackgroundImage from "/Senai_anime.png";
+import LoadingOverlay from "../../componentes/loading/loading_overlay";
 import ModalMessage from "../../componentes/modal/successful";
+import { FaInfoCircle } from "react-icons/fa";
+import ToolTip from "../../componentes/tool/Tip_baloon";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -11,14 +15,10 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [modal, setModal] = useState({ show: false, message: "", type: "" });
-
-  const LoadingOverlay = () => (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-60 z-50 flex items-center justify-center">
-      <Bars fill="#D8B4FE" height="90px" />
-    </div>
-  );
+  const [isLoading, setIsLoading] = useState(false);
 
   const closeModal = () => {
     setModal({ show: false, message: "", type: "" });
@@ -28,7 +28,7 @@ export default function Register() {
     }
   };
 
-  const registerUser = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -44,7 +44,7 @@ export default function Register() {
       });
 
       setModal({ show: true, message: "Cadastro realizado com sucesso!", type: "success" });
-    } catch (error) {
+    } catch {
       setModal({ show: true, message: "Erro ao registrar. Tente outro nome de usuário.", type: "error" });
     } finally {
       setIsLoading(false);
@@ -52,61 +52,123 @@ export default function Register() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gray-900 text-white p-6 overflow-hidden">
-      <div className="absolute top-0 left-0 w-[50%] h-[80%] bg-[#3cba51] rounded-br-[100%] z-0"></div>
-      <div className="absolute bottom-0 right-0 w-[46%] h-[80%] bg-[#3cba51] rounded-tl-[100%] z-0"></div>
-      <img src={Logo} className="absolute top-0 right-0 w-[7%] mt-2 mr-2" />
-
+    <div className="min-h-screen flex flex-col md:flex-row bg-[#0f1f13]">
       {isLoading && <LoadingOverlay />}
-      {modal.show && <ModalMessage message={modal.message} type={modal.type} onClose={closeModal} />}
+      {modal.show && (
+        <ModalMessage
+          message={modal.message}
+          type={modal.type}
+          onClose={closeModal}
+        />
+      )}
 
-      <div className={`relative z-10 transition-opacity duration-700 ${fadeOut ? "opacity-0" : "opacity-100"}`}>
-        <section className="bg-transparent p-8 rounded-xl shadow-2xl w-full max-w-md">
-          <h1 className="text-5xl font-bold mb-6 text-center text-white">CADASTRO</h1>
-          <form onSubmit={registerUser} className="flex flex-col gap-4">
+      <div className="w-full md:w-1/2 flex items-center justify-center relative z-10">
+        <img
+          src={Logo}
+          alt="Logo SmartCity"
+          className="absolute top-6 left-6 w-24 md:w-28"
+        />
+
+        <ToolTip message="Não se esqueça de anotar o seu usuário e senha!">
+          <FaInfoCircle
+            className="w-10 md:w-12 text-white text-3xl cursor-pointer"
+          />
+        </ToolTip>
+
+        <div
+          className={`transition-opacity duration-700 w-full max-w-[75%] sm:max-w-[70%] md:max-w-[65%] p-6 md:p-10 rounded-xl bg-transparent ${fadeOut ? "opacity-0" : "opacity-100"
+            }`}
+        >
+          <h1 className="text-4xl sm:text-5xl font-bold text-white text-center leading-tight">
+            Crie uma nova conta
+            <span className="block mt-4 text-[#00c476]">SmartCity</span>
+          </h1>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-10">
             <div>
-              <label className="text-xl">Nome de usuário:</label>
+              <label className="text-white text-xl font-semibold mb-1 block">
+                Nome de usuário
+              </label>
               <input
                 type="text"
-                className="w-full px-3 py-2 mt-1 rounded bg-white text-black focus:ring-2 focus:ring-[#3cba51] outline-none"
+                required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                required
+                placeholder="Digite seu nome de usuário"
+                className="w-full h-[3rem] px-3 py-2 mt-1 rounded bg-white text-gray-600 text-xl focus:ring-2 focus:ring-[#126b4b] outline-none"
               />
             </div>
+
             <div>
-              <label className="text-xl">Senha:</label>
-              <input
-                type="password"
-                className="w-full px-3 py-2 mt-1 rounded bg-white text-black focus:ring-2 focus:ring-[#3cba51] outline-none"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <label className="text-white text-xl font-semibold mb-1 block">
+                Senha
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Digite sua senha"
+                  className="w-full h-[3rem] px-3 py-2 mt-1 rounded bg-white text-gray-600 text-xl focus:ring-2 focus:ring-[#126b4b] outline-none pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-3 cursor-pointer text-[#126b4b]"
+                  aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                >
+                  {showPassword ? <FiEyeOff size={30} /> : <FiEye size={30} />}
+                </button>
+              </div>
             </div>
+
             <div>
-              <label className="text-xl">Confirmar senha:</label>
-              <input
-                type="password"
-                className="w-full px-3 py-2 mt-1 rounded bg-white text-black focus:ring-2 focus:ring-[#3cba51] outline-none"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
+              <label className="text-white text-xl font-semibold mb-1 block">
+                Confirmar senha
+              </label>
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirme sua senha"
+                  className="w-full h-[3rem] px-3 py-2 mt-1 rounded bg-white text-gray-600 text-xl focus:ring-2 focus:ring-[#126b4b] outline-none pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-3 cursor-pointer text-[#126b4b]"
+                  aria-label={showConfirmPassword ? "Ocultar senha" : "Mostrar senha"}
+                >
+                  {showConfirmPassword ? <FiEyeOff size={30} /> : <FiEye size={30} />}
+                </button>
+              </div>
             </div>
+
             <button
               type="submit"
-              className="mt-4 bg-[#3cba51] text-white font-semibold py-2 rounded text-xl cursor-pointer 
-                         hover:bg-[#2e813c] transform transition duration-600 hover:scale-105"
+              className="glow-hover cursor-pointer mt-2 bg-[#00c476] text-white font-bold py-3 rounded-md text-2xl hover:bg-[#126b4b] transition-transform duration-300 hover:scale-105"
             >
               Registrar
             </button>
           </form>
-          <p className="text-center mt-4 text-[#3cba51] hover:underline hover:text-[#2e813c]">
-            <Link to="/login">Já tem uma conta? Faça login</Link>
-          </p>
-        </section>
+
+          <div className="text-center mt-10">
+            <Link to="/login" className="mt-6">
+              <span className="hover:underline text-[#00c476] hover:text-[#126b4b]">
+                Já tem uma conta? Faça login
+              </span>
+            </Link>
+          </div>
+        </div>
       </div>
+
+      <div
+        className="w-full md:w-1/2 hidden md:block bg-cover bg-center"
+        style={{ backgroundImage: `url(${BackgroundImage})` }}
+      ></div>
     </div>
   );
 }
