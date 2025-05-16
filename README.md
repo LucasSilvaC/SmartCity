@@ -28,4 +28,5 @@ A real example for a Smart City.
 <li>npm install react-loading-icons</li>
 <li>npm install xlsx</li>
 <li>npm install tailwindcss @tailwindcss/vite</li>
+<li>npm install react-loading-indicators</li>  
 </ul>
