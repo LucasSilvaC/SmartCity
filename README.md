@@ -30,4 +30,5 @@ A real example for a Smart City.
 <li>npm install tailwindcss @tailwindcss/vite</li>
 <li>npm install react-loading-indicators</li>  
 <li>npm install react-tsparticles</li>  
+<li>npm install tailwind-merge</li>  
 </ul>
