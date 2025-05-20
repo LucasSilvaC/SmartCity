@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 function Rain({ onRainChange }) {
   const [active, setActive] = useState(false);
-  const intervaloMs = 3 * 60 * 1000;
+  const intervaloMs = 1 * 60 * 1000;
   const duracaoMs = 20 * 1000;
   const gif = "/rain.gif";
 

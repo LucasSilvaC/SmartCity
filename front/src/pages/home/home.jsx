@@ -23,7 +23,6 @@ function Home() {
     <>
       <Sidebar />
       <Bottombar />
-      <Keyboard_help />
       <MapaInterativo style={{ marginLeft: "80px" }}>
         <FlyingBird numPassaros={20} />
       </MapaInterativo>

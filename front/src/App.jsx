@@ -5,6 +5,7 @@ import Login from './pages/login/login';
 import Register from './pages/cadastro/register';
 import Home from './pages/home/home';
 import Redefinir_senha from './pages/cadastro/redefinir_senha';
+import Ajuda from "./pages/settings_extension/ajuda";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path="/redefinir_senha" element={<Redefinir_senha />} />
+        <Route path="/ajuda" element={<Ajuda />} />
       </Routes>
     </Router>
   );
