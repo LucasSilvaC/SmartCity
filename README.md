@@ -31,4 +31,5 @@ A real example for a Smart City.
 <li>npm install react-loading-indicators</li>  
 <li>npm install react-tsparticles</li>  
 <li>npm install tailwind-merge</li>  
+<li>npm install leaflet react-leaflet</li>
 </ul>
