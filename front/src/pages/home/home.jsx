@@ -6,19 +6,10 @@ import Rain from "./rain";
 import Sun from "./sun";
 import Sidebar from '../../componentes/home/barra_lateral';
 import Bottombar from '../../componentes/home/barra_bottom';
-import Keyboard_help from "../../componentes/home/keyboard_help";
 
 function Home() {
   const [chovendo, setChovendo] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-    }
-  }, [navigate]);
-
+  
   return (
     <>
       <Sidebar />

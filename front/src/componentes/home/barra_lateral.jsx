@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import SidebarButton from "./barra_lateral_button";
+import { useNavigate } from "react-router-dom";
+import SidebarButton from "./buttons/barra_lateral_button";
 import { PiSignOutLight } from "react-icons/pi";
 import { IoIosMenu } from "react-icons/io";
 import { IoHomeOutline } from "react-icons/io5";
@@ -11,6 +12,12 @@ import { LuMapPin } from "react-icons/lu";
 
 export default function Sidebar() {
   const [aberta, setAberta] = useState(true);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <>
@@ -31,15 +38,39 @@ export default function Sidebar() {
         `}
       >
         <div className="mt-10">
-        <SidebarButton label="Home" Icon={IoHomeOutline} />
+          <SidebarButton
+            label="Home"
+            Icon={IoHomeOutline}
+            onClick={() => navigate("/home")}
+          />
         </div>
-        <SidebarButton label="Histórico" Icon={MdOutlineHistory } />
-        <SidebarButton label="Ambientes" Icon={FaTree } />
-        <SidebarButton label="Dashboards" Icon={GoGraph } />
-        <SidebarButton label="Mapa" Icon={LuMapPin } />
+        <SidebarButton
+          label="Histórico"
+          Icon={MdOutlineHistory}
+          onClick={() => navigate("/historico")}
+        />
+        <SidebarButton
+          label="Ambientes"
+          Icon={FaTree}
+          onClick={() => navigate("/ambientes")}
+        />
+        <SidebarButton
+          label="Dashboards"
+          Icon={GoGraph}
+          onClick={() => navigate("/dashboards")}
+        />
+        <SidebarButton
+          label="Mapa"
+          Icon={LuMapPin}
+          onClick={() => navigate("/mapa")}
+        />
         <div className="flex-grow"></div>
-        <SidebarButton label="Perfil" Icon={CgProfile } />
-        <SidebarButton label="Logout" Icon={PiSignOutLight} />
+        <SidebarButton
+          label="Perfil"
+          Icon={CgProfile}
+          onClick={() => navigate("/perfil")}
+        />
+        <SidebarButton label="Logout" Icon={PiSignOutLight} onClick={handleLogout} />
       </aside>
     </>
   );

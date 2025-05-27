@@ -1,0 +1,11 @@
+Mapa
+Home-Endpoints clicaveis
+Tela Perfil
+Ajuda
+Botão voltar - ajuda
+Documentação
+
+Sensores
+Historico
+Ambientes
+Dashboard
