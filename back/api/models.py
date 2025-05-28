@@ -45,26 +45,8 @@ class Sensor(models.Model):
     longitude = models.FloatField()
     status = models.BooleanField(default=True)
 
-class HistoricoTemperatura(models.Model):
+class Historico(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     ambiente = models.ForeignKey(Ambiente, on_delete=models.CASCADE)
-    valor = models.FloatField()
-    timestamp = models.DateTimeField()
-
-class HistoricoUmidade(models.Model):
-    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-    ambiente = models.ForeignKey(Ambiente, on_delete=models.CASCADE)
-    valor = models.FloatField()
-    timestamp = models.DateTimeField()
-
-class HistoricoLuminosidade(models.Model):
-    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-    ambiente = models.ForeignKey(Ambiente, on_delete=models.CASCADE)
-    valor = models.FloatField()
-    timestamp = models.DateTimeField()
-
-class HistoricoContador(models.Model):
-    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-    ambiente = models.ForeignKey(Ambiente, on_delete=models.CASCADE)
-    valor = models.FloatField()
+    valor = models.FloatField(max_length=255)
     timestamp = models.DateTimeField()
