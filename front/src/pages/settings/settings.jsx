@@ -34,7 +34,10 @@ export default function Settings({ onClose }) {
     setSelected((prev) => (prev + 1) % options.length);
 
   const handleSelect = (title, path) => {
-    if (title === "Continuar") onClose?.();
+    if (title === "Continuar") {
+      onClose?.();
+      return;
+    }
     navigate(path);
   };
 
