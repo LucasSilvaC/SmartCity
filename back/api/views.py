@@ -59,9 +59,7 @@ class ResetPasswordAPIView(APIView):
         except User.DoesNotExist:
             return Response({'erro': 'Usuário não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
-
-# ----------- Ambientes -------------
-
+# Ambientes
 class AmbienteListCreateView(ListCreateAPIView):
     queryset = Ambiente.objects.all().order_by('sig')
     serializer_class = AmbienteSerializer
@@ -135,8 +133,7 @@ def exportar_xlsx_ambientes(request):
     return response
 
 
-# ----------- Sensores -------------
-
+# Sensores
 class SensorListCreateView(ListCreateAPIView):
     queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
@@ -150,14 +147,11 @@ class SensorDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = SensorSerializer
     permission_classes = [IsAuthenticated]
 
-def str_to_bool(value):
-    if isinstance(value, bool):
-        return value
-    if isinstance(value, (int, float)):
-        return bool(value)
-    if isinstance(value, str):
-        return value.strip().lower() in ['true', '1', 'yes', 'sim']
-    return False
+def str_to_bool(val):
+    if isinstance(val, str):
+        texto = val.strip().lower()
+        return texto in ("true", "1", "sim", "ativo", "yes")
+    return bool(val)
 
 class UploadXLSXViewSensor(APIView):
     permission_classes = [IsAuthenticated]
@@ -165,48 +159,104 @@ class UploadXLSXViewSensor(APIView):
 
     def post(self, request, *args, **kwargs):
         file_obj = request.FILES.get('file')
-
         if not file_obj:
             return Response({'erro': 'Arquivo não enviado'}, status=400)
 
-        wb = load_workbook(filename=file_obj)
-        ws = wb.active
+        try:
+            wb = load_workbook(filename=file_obj, data_only=True)
+            ws = wb.active
+        except Exception as e:
+            return Response({'erro': f'Falha ao abrir o Excel: {e}'}, status=400)
 
-        erros = []
-        for i, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
-            sensor_name = row[0]
-            mac_address = row[1]
-            unidade_med = row[2]
-            latitude = row[3]
-            longitude = row[4]
-            status_val_raw = row[5]
-
-            if not sensor_name:
-                erros.append(f"[Linha {i}] Erro: sensor vazio. Dados: {row}")
+        header_row = next(ws.iter_rows(min_row=1, max_row=1, values_only=True))
+        col_idx = {}
+        for idx, cell_value in enumerate(header_row):
+            if cell_value is None:
                 continue
+            nome = str(cell_value).strip()
+            col_idx[nome] = idx
 
-            conflito_sensor = Sensor.objects.filter(sensor=sensor_name).exclude(mac_address=mac_address).exists()
-            if conflito_sensor:
-                erros.append(f"[Linha {i}] Erro: Sensor com nome '{sensor_name}' já existe com outro MAC.")
-                continue
-
-            status_val = str_to_bool(status_val_raw) if status_val_raw is not None else True
-
-            Sensor.objects.update_or_create(
-                mac_address=mac_address,
-                defaults={
-                    'sensor': sensor_name,
-                    'unidade_med': unidade_med,
-                    'latitude': latitude,
-                    'longitude': longitude,
-                    'status': status_val,
-                }
+        obrigatorias = ['sensor', 'mac_address', 'latitude', 'longitude', 'status']
+        faltantes = [c for c in obrigatorias if c not in col_idx]
+        if faltantes:
+            return Response(
+                {'erro': f'Colunas obrigatórias faltando no Excel: {faltantes}'},
+                status=400
             )
 
-        if erros:
-            return Response({'mensagem': 'Importação concluída com erros', 'erros': erros}, status=status.HTTP_207_MULTI_STATUS)
+        erros = []
+        criados = 0
+        atualizados = 0
 
-        return Response({'mensagem': 'Dados importados com sucesso!'}, status=status.HTTP_201_CREATED)
+        for linha_idx, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
+            tipo_sensor_raw = row[col_idx['sensor']]
+            mac_address_raw = row[col_idx['mac_address']]
+            latitude_raw = row[col_idx['latitude']]
+            longitude_raw = row[col_idx['longitude']]
+            status_raw = row[col_idx['status']]
+
+            if tipo_sensor_raw is None or str(tipo_sensor_raw).strip() == "":
+                erros.append(f"[Linha {linha_idx}] Erro: coluna 'sensor' vazia. Dados: {row}")
+                continue
+            if mac_address_raw is None or str(mac_address_raw).strip() == "":
+                erros.append(f"[Linha {linha_idx}] Erro: coluna 'mac_address' vazia. Dados: {row}")
+                continue
+
+            tipo_sensor = str(tipo_sensor_raw).strip().lower()
+            mac_address = str(mac_address_raw).strip()
+
+            try:
+                latitude = float(latitude_raw)
+                longitude = float(longitude_raw)
+            except Exception:
+                erros.append(f"[Linha {linha_idx}] Erro: latitude/longitude inválidos. Dados: {row}")
+                continue
+
+            status_val = str_to_bool(status_raw)
+
+            tipos_validos = {choice[0] for choice in Sensor.TIPO}
+            if tipo_sensor not in tipos_validos:
+                erros.append(f"[Linha {linha_idx}] Erro: tipo '{tipo_sensor}' não está entre {tipos_validos}.")
+                continue
+
+            identificador_unico = f"{tipo_sensor}_{mac_address}"
+
+            conflito_sensor = Sensor.objects.filter(sensor=identificador_unico).exclude(mac_address=mac_address).exists()
+            if conflito_sensor:
+                erros.append(
+                    f"[Linha {linha_idx}] Erro: Já existe outro Sensor com nome '{identificador_unico}' e MAC diferente."
+                )
+                continue
+
+            try:
+                obj, created = Sensor.objects.update_or_create(
+                    mac_address=mac_address,
+                    defaults={
+                        'sensor': identificador_unico,
+                        'unidade_med': tipo_sensor,
+                        'latitude': latitude,
+                        'longitude': longitude,
+                        'status': status_val,
+                    }
+                )
+                if created:
+                    criados += 1
+                else:
+                    atualizados += 1
+            except Exception as e:
+                erros.append(f"[Linha {linha_idx}] Erro ao salvar no banco: {e}")
+                continue
+
+        resposta = {
+            'total_linhas_lidas': ws.max_row - 1,
+            'criados': criados,
+            'atualizados': atualizados
+        }
+        if erros:
+            resposta['erros'] = erros
+            return Response(resposta, status=status.HTTP_207_MULTI_STATUS)
+
+        return Response(resposta, status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -238,23 +288,7 @@ def exportar_xlsx_sensores(request):
     return response
 
 
-# ----------- Histórico -------------
-from rest_framework import status, filters
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.parsers import MultiPartParser
-from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from django_filters.rest_framework import DjangoFilterBackend
-from django.http import HttpResponse
-from openpyxl import load_workbook, Workbook
-from openpyxl.utils import get_column_letter
-from datetime import datetime
-
-from .models import Historico, Sensor, Ambiente
-from .serializers import HistoricoSerializer
-
+# Histórico
 class HistoricoListCreateView(ListCreateAPIView):
     queryset = Historico.objects.all().order_by('-timestamp')
     serializer_class = HistoricoSerializer
