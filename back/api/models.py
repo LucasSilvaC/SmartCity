@@ -38,8 +38,8 @@ class Sensor(models.Model):
         ('contador', 'Contador'),
     ]
 
-    sensor = models.CharField(max_length=255, unique=True)
-    mac_address = models.CharField(max_length=255, unique=True)
+    sensor = models.CharField(max_length=255)
+    mac_address = models.CharField(max_length=255)
     unidade_med = models.CharField(max_length=50, choices=TIPO)
     latitude = models.FloatField()
     longitude = models.FloatField()

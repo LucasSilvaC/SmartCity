@@ -65,8 +65,8 @@ class AmbienteListCreateView(ListCreateAPIView):
     serializer_class = AmbienteSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['sig']
-    search_fields = ['sig']
+    filterset_fields = ['sig', 'ni', 'responsavel']
+    search_fields = ['ni', 'responsavel', 'descricao']
 
 class AmbienteDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Ambiente.objects.all()
@@ -132,15 +132,14 @@ def exportar_xlsx_ambientes(request):
     wb.save(response)
     return response
 
-
 # Sensores
 class SensorListCreateView(ListCreateAPIView):
     queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['id', 'sensor', 'status']
-    search_fields = ['sensor']
+    filterset_fields = ['id', 'sensor', 'status', 'unidade_med', 'mac_address']
+    search_fields = ['sensor', 'mac_address']
 
 class SensorDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Sensor.objects.all()
@@ -186,7 +185,6 @@ class UploadXLSXViewSensor(APIView):
 
         erros = []
         criados = 0
-        atualizados = 0
 
         for linha_idx, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
             tipo_sensor_raw = row[col_idx['sensor']]
@@ -219,30 +217,18 @@ class UploadXLSXViewSensor(APIView):
                 erros.append(f"[Linha {linha_idx}] Erro: tipo '{tipo_sensor}' não está entre {tipos_validos}.")
                 continue
 
-            identificador_unico = f"{tipo_sensor}_{mac_address}"
-
-            conflito_sensor = Sensor.objects.filter(sensor=identificador_unico).exclude(mac_address=mac_address).exists()
-            if conflito_sensor:
-                erros.append(
-                    f"[Linha {linha_idx}] Erro: Já existe outro Sensor com nome '{identificador_unico}' e MAC diferente."
-                )
-                continue
+            identificador_unico = f"{tipo_sensor}_{mac_address}_{linha_idx}"
 
             try:
-                obj, created = Sensor.objects.update_or_create(
+                obj = Sensor.objects.create(
+                    sensor=identificador_unico,
                     mac_address=mac_address,
-                    defaults={
-                        'sensor': identificador_unico,
-                        'unidade_med': tipo_sensor,
-                        'latitude': latitude,
-                        'longitude': longitude,
-                        'status': status_val,
-                    }
+                    unidade_med=tipo_sensor,
+                    latitude=latitude,
+                    longitude=longitude,
+                    status=status_val,
                 )
-                if created:
-                    criados += 1
-                else:
-                    atualizados += 1
+                criados += 1
             except Exception as e:
                 erros.append(f"[Linha {linha_idx}] Erro ao salvar no banco: {e}")
                 continue
@@ -250,7 +236,6 @@ class UploadXLSXViewSensor(APIView):
         resposta = {
             'total_linhas_lidas': ws.max_row - 1,
             'criados': criados,
-            'atualizados': atualizados
         }
         if erros:
             resposta['erros'] = erros
@@ -287,27 +272,20 @@ def exportar_xlsx_sensores(request):
     wb.save(response)
     return response
 
-
 # Histórico
 class HistoricoListCreateView(ListCreateAPIView):
     queryset = Historico.objects.all().order_by('-timestamp')
     serializer_class = HistoricoSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['sensor', 'ambiente', 'timestamp']
+    filterset_fields = ['sensor', 'ambiente']
     search_fields = ['sensor__sensor', 'ambiente__descricao']
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        sensor_id = self.request.query_params.get('sensor')
-        ambiente_id = self.request.query_params.get('ambiente')
         data_str = self.request.query_params.get('data')
         hora_str = self.request.query_params.get('hora')
 
-        if sensor_id:
-            queryset = queryset.filter(sensor__id=sensor_id)
-        if ambiente_id:
-            queryset = queryset.filter(ambiente__id=ambiente_id)
         if data_str:
             queryset = queryset.filter(timestamp__date=data_str)
         if hora_str:
@@ -352,7 +330,7 @@ class UploadXLSXViewHistorico(APIView):
                 if isinstance(ambiente_raw, float):
                     ambiente_id = int(ambiente_raw)
                 elif isinstance(ambiente_raw, str):
-                    ambiente_id = int(ambiente_raw.strip())
+                    ambiente_id = int(float(ambiente_raw.strip()))
                 else:
                     ambiente_id = int(ambiente_raw)
             except (ValueError, TypeError):
@@ -363,7 +341,7 @@ class UploadXLSXViewHistorico(APIView):
                 if isinstance(sensor_raw, float):
                     sensor_id = int(sensor_raw)
                 elif isinstance(sensor_raw, str):
-                    sensor_id = int(sensor_raw.strip())
+                    sensor_id = int(float(sensor_raw.strip()))
                 else:
                     sensor_id = int(sensor_raw)
             except (ValueError, TypeError):
@@ -382,12 +360,16 @@ class UploadXLSXViewHistorico(APIView):
                 erros.append(f"[Linha {i}] Ambiente com ID {ambiente_id} não encontrado.")
                 continue
 
-            Historico.objects.create(
-                valor=valor,
-                timestamp=timestamp,
-                ambiente=ambiente,
-                sensor=sensor,
-            )
+            try:
+                Historico.objects.create(
+                    valor=valor,
+                    timestamp=timestamp,
+                    ambiente=ambiente,
+                    sensor=sensor,
+                )
+            except Exception as e:
+                erros.append(f"[Linha {i}] Erro ao salvar histórico: {e}")
+                continue
 
         if erros:
             return Response({'mensagem': 'Importação concluída com erros', 'erros': erros}, status=status.HTTP_207_MULTI_STATUS)
