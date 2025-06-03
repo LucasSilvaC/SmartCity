@@ -7,13 +7,12 @@ import TopbarButton from "../../../componentes/sensores/buttons/barra_top";
 import Settings from "../../../pages/settings/settings";
 import SmartCity_logo from "../../../assets/SmartCity_Logo.png"
 
-export default function Header({ onMiddleClick }) {
+export default function Header({ onMiddleClick, labels = {} }) {
   const navigate = useNavigate();
   const [showHelp, setShowHelp] = useState(false);
+
   return (
     <div className="fixed top-0 left-0 right-0 flex justify-center items-center gap-8 z-50">
-
-
       <div className="fixed top-4 right-4 z-50">
         <div onClick={() => setShowHelp(true)}>
           <TopbarButton label="Configurações" Icon={FiSettings} />
@@ -21,12 +20,17 @@ export default function Header({ onMiddleClick }) {
       </div>
 
       <div className="fixed top-4 left-4 z-50">
-        <img src={SmartCity_logo} alt="Logo SmartCity" className="w-20 h-20" />
+        <img
+          src={SmartCity_logo}
+          alt="Logo SmartCity"
+          className="w-20 h-20 cursor-pointer"
+          onClick={() => navigate("/home")}
+        />
       </div>
 
-      <Header_button onClick={() => navigate("/home")} label="Voltar" />
-      <Header_button onClick={onMiddleClick} label="Contador" />
-      <Header_button onClick={onMiddleClick} label="Registros" />
+      <Header_button onClick={() => navigate("/home")} label={labels.left || "Voltar"} />
+      <Header_button onClick={onMiddleClick} label={labels.middle} />
+      <Header_button onClick={() => navigate("/historico")} label={labels.right} />
 
       {showHelp && <Settings onClose={() => setShowHelp(false)} />}
     </div>

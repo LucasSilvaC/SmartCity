@@ -58,7 +58,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-[#0f1f13]">
+    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       {isLoading && <LoadingOverlay />}
       {modal.show && (
         <ModalMessage
@@ -68,34 +68,28 @@ export default function Login() {
         />
       )}
 
-      <div className="w-full md:w-1/2 flex items-center justify-center relative p-6">
+      <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 relative">
         <img
           src={Logo}
           alt="Logo SmartCity"
-          className="luz absolute top-6 left-6 w-24 md:w-28"
+          className="absolute top-6 left-6 w-28 md:w-32 select-none"
         />
 
         <ToolTip message="O login padrão de administrador é User: Lucas Senha: 123">
-          <FaInfoCircle
-            className="w-10 md:w-12 text-white text-3xl cursor-pointer"
-          />
+          <FaInfoCircle className="w-10 md:w-12 text-white text-3xl cursor-pointer absolute top-6 right-6" />
         </ToolTip>
 
         <div
-          className={`transition-opacity duration-700 w-full max-w-[75%] sm:max-w-[70%] md:max-w-[65%] p-6 md:p-10 rounded-xl ${fadeOut ? "opacity-0" : "opacity-100"
-            }`}
+          className={`transition-opacity duration-700 w-full max-w-md p-10 rounded-2xl bg-black bg-opacity-60 shadow-xl border border-gray-700 ${fadeOut ? "opacity-0" : "opacity-100"}`}
         >
-          <h1 className="text-4xl sm:text-5xl font-bold text-white text-center leading-tight">
+          <h1 className="text-4xl font-extrabold text-white text-center leading-tight">
             Insira sua Conta
-            <span className="block mt-4 text-[#00c476]">SmartCity</span>
+            <span className="block mt-3 text-green-500">SmartCity</span>
           </h1>
 
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-6 mt-10"
-          >
+          <form onSubmit={handleSubmit} className="flex flex-col gap-8 mt-10">
             <div>
-              <label className="text-white text-xl font-semibold mb-1 block">
+              <label className="text-white text-lg font-semibold mb-2 block">
                 Nome de usuário
               </label>
               <input
@@ -104,12 +98,12 @@ export default function Login() {
                 value={user}
                 onChange={(e) => setUser(e.target.value)}
                 placeholder="Digite seu nome de usuário"
-                className="w-full h-[3rem] px-3 py-2 mt-1 rounded bg-white text-gray-600 text-xl focus:ring-2 focus:ring-[#126b4b] outline-none"
+                className="w-full h-12 px-4 rounded-lg bg-gray-800 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
 
             <div>
-              <label className="text-white text-xl font-semibold mb-1 block">
+              <label className="text-white text-lg font-semibold mb-2 block">
                 Senha
               </label>
               <div className="relative">
@@ -119,53 +113,51 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Digite sua senha"
-                  className="w-full h-[3rem] px-3 py-2 mt-1 rounded bg-white text-gray-600 text-xl focus:ring-2 focus:ring-[#126b4b] outline-none pr-10"
+                  className="w-full h-12 px-4 rounded-lg bg-gray-800 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 pr-12"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 cursor-pointer text-[#126b4b]"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500 hover:text-green-400"
+                  aria-label="Mostrar/ocultar senha"
                 >
-                  {showPassword ? <FiEyeOff size={30} /> : <FiEye size={30} />}
+                  {showPassword ? <FiEyeOff size={24} /> : <FiEye size={24} />}
                 </button>
               </div>
             </div>
 
             <button
               type="submit"
-              className="cursor-pointer mt-2 bg-[#00c476] text-white font-bold py-3 rounded-md text-2xl hover:bg-[#126b4b] transition-transform duration-300 hover:scale-105 glow-hover"
+              className="w-full bg-green-600 hover:bg-green-700 transition rounded-lg py-3 text-white font-bold text-xl shadow-md hover:shadow-lg transform hover:scale-105"
             >
               Entrar
             </button>
           </form>
 
-          <div className="text-center mt-10">
-            <Link to="/register" className="mt-6">
-              <span className="hover:underline text-[#00c476] hover:text-[#126b4b]">
-                Não tem uma conta? Cadastre-se
-              </span>
+          <div className="mt-8 text-center">
+            <Link to="/register" className="text-green-500 hover:text-green-400 hover:underline font-medium">
+              Não tem uma conta? Cadastre-se
             </Link>
           </div>
 
-          <div className="text-center mt-3">
-            <Link to="/redefinir_senha" className="mt-6">
-              <span className="hover:underline text-[#00c476] hover:text-[#126b4b]">
-                Esqueceu a senha?
-              </span>
+          <div className="mt-4 text-center">
+            <Link to="/redefinir_senha" className="text-green-500 hover:text-green-400 hover:underline font-medium">
+              Esqueceu a senha?
             </Link>
           </div>
         </div>
+
         <img
           src={Senai_Logo}
           alt="Logo Senai"
-          className="fixed bottom-5 right-5 w-33 opacity-60 hover:opacity-80 transition-opacity duration-300 z-50"
+          className="fixed bottom-6 right-6 w-32 opacity-60 hover:opacity-90 transition-opacity duration-300 z-50 select-none"
         />
       </div>
 
       <div
-        className={`w-full md:w-1/2 hidden md:block bg-cover bg-center ${fadeOut ? "opacity-0" : "opacity-100"}`}
+        className={`w-full md:w-1/2 hidden md:block bg-cover bg-center transition-opacity duration-700 ${fadeOut ? "opacity-0" : "opacity-100"}`}
         style={{ backgroundImage: `url(${BackgroundImage})` }}
-      ></div>
+      />
     </div>
   );
 }

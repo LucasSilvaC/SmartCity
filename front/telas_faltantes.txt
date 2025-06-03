@@ -1,10 +1,9 @@
-Sensores
+Sensores (*)
 
 Mapa
 Home-Endpoints clicaveis
 Tela Perfil
 Ajuda
-Botão voltar - ajuda
 Documentação
 
 Historico

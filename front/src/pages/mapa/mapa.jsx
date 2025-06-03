@@ -7,15 +7,15 @@ export default function Mapa() {
 
     return (
         <div className="flex h-screen">
-            <div className="w-[33%] bg-[#171310] p-15 h-full justify-center items-center flex flex-col gap-10 text-center">
+            <div className="w-[33%] bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-15 h-full justify-center items-center flex flex-col gap-10 text-center">
                 <div className="flex w-[80%] justify-center">
                     <h1 className="text-5xl text-white font-bold">Senai Roberto Mange</h1>
                 </div>
-                <div className="flex rounded-xl border-1 border-white w-[80%]">
+                <div className="flex rounded-sm border-1 border-white w-[80%]">
                     <img
                         src="src/assets/Senai_Mange.jpg"
                         alt="Senai"
-                        className="object-cover rounded-xl w-full h-auto"
+                        className="object-cover rounded-sm w-full h-auto"
                     />
                 </div>
             </div>

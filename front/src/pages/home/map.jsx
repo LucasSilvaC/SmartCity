@@ -1,28 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
-import TileMapa from "./boxmap";
 
 function Map({ children }) {
   const larguraImagem = 1000;
   const alturaImagem = 480;
-  const fatorZoom = 2;
+  const fatorZoom = 5;
   const velocidade = 7.2;
 
-  const larguraTotal = larguraImagem * 2 * fatorZoom;
-  const alturaTotal = alturaImagem * 2 * fatorZoom;
+  const larguraTotal = larguraImagem * fatorZoom;
+  const alturaTotal = alturaImagem * fatorZoom;
 
   const [larguraJanela, setLarguraJanela] = useState(window.innerWidth);
   const [alturaJanela, setAlturaJanela] = useState(window.innerHeight);
 
-  const [posicao, setPosicao] = useState({ x: 0, y: 0 });
+  const posicaoInicialX = Math.max(0, (larguraTotal / 2) - (larguraJanela / 2));
+  const posicaoInicialY = Math.max(0, (alturaTotal / 2) - (alturaJanela / 2));
+
+  const [posicao, setPosicao] = useState({ x: posicaoInicialX, y: posicaoInicialY });
   const posicaoRef = useRef(posicao);
+
   const teclasAtivas = useRef({});
   const animFrame = useRef();
 
   const img = "/Senai_map.png";
 
   useEffect(() => {
-    setPosicao({ x: 0, y: 0 });
-    posicaoRef.current = { x: 0, y: 0 };
+    posicaoRef.current = posicao; 
   }, []);
 
   useEffect(() => {
@@ -33,6 +35,13 @@ function Map({ children }) {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    const novaX = Math.max(0, (larguraTotal / 2) - (larguraJanela / 2));
+    const novaY = Math.max(0, (alturaTotal / 2) - (alturaJanela / 2));
+    setPosicao({ x: novaX, y: novaY });
+    posicaoRef.current = { x: novaX, y: novaY };
+  }, [larguraJanela, alturaJanela, larguraTotal, alturaTotal]);
 
   useEffect(() => {
     const pressionarTecla = (e) => {
@@ -74,7 +83,7 @@ function Map({ children }) {
       window.removeEventListener("keyup", soltarTecla);
       cancelAnimationFrame(animFrame.current);
     };
-  }, [larguraJanela, alturaJanela]); 
+  }, [larguraJanela, alturaJanela]);
 
   return (
     <div
@@ -86,33 +95,24 @@ function Map({ children }) {
         backgroundColor: "#000",
       }}
     >
-      <div
+      <img
+        src={img}
+        alt="Mapa"
         style={{
           position: "absolute",
-          width: `${larguraTotal}px`,
-          height: `${alturaTotal}px`,
-          transform: `translate(-${posicao.x}px, -${posicao.y}px)`,
+          width: `${larguraImagem}px`,
+          height: "auto",
+          transform: `translate(-${posicao.x}px, -${posicao.y}px) scale(${fatorZoom})`,
+          transformOrigin: "top left",
+          userSelect: "none",
+          pointerEvents: "none",
         }}
-      >
-        {[0, 1].map((rowIdx) =>
-          [0, 1].map((colIdx) => (
-            <TileMapa
-              key={`${rowIdx}-${colIdx}`}
-              row={rowIdx}
-              col={colIdx}
-              larguraImagem={larguraImagem}
-              alturaImagem={alturaImagem}
-              fatorZoom={fatorZoom}
-              src={img}
-            />
-          ))
-        )}
-
-        {React.cloneElement(children, {
-          larguraTotal,
-          alturaTotal,
-        })}
-      </div>
+        draggable={false}
+      />
+      {React.cloneElement(children, {
+        larguraTotal,
+        alturaTotal,
+      })}
     </div>
   );
 }

@@ -1,4 +1,3 @@
-// imports iguais ao Register.jsx
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
@@ -53,33 +52,35 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-[#0f1f13]">
+    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       {isLoading && <LoadingOverlay />}
       {modal.show && <ModalMessage message={modal.message} type={modal.type} onClose={closeModal} />}
 
-      <div className="w-full md:w-1/2 flex items-center justify-center relative z-10">
-        <img src={Logo} alt="Logo SmartCity" className="absolute top-6 left-6 w-24 md:w-28" />
-        <div className={`transition-opacity duration-700 w-full max-w-[75%] md:max-w-[65%] p-6 md:p-10 rounded-xl bg-transparent ${fadeOut ? "opacity-0" : "opacity-100"}`}>
-          <h1 className="text-4xl sm:text-5xl font-bold text-white text-center leading-tight">
+      <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 relative">
+        <img src={Logo} alt="Logo SmartCity" className="absolute top-6 left-6 w-28 md:w-32 select-none" />
+        <div
+          className={`transition-opacity duration-700 w-full max-w-md p-10 rounded-2xl bg-black bg-opacity-60 shadow-xl border border-gray-700 ${fadeOut ? "opacity-0" : "opacity-100"}`}
+        >
+          <h1 className="text-4xl font-extrabold text-white text-center leading-tight">
             Redefinir senha
-            <span className="block mt-4 text-[#00c476]">SmartCity</span>
+            <span className="block mt-3 text-green-500">SmartCity</span>
           </h1>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-10">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-8 mt-10">
             <div>
-              <label className="text-white text-xl font-semibold mb-1 block">Nome de usuário</label>
+              <label className="text-white text-lg font-semibold mb-2 block">Nome de usuário</label>
               <input
                 type="text"
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Digite seu nome de usuário"
-                className="w-full h-[3rem] px-3 py-2 mt-1 rounded bg-white text-gray-600 text-xl focus:ring-2 focus:ring-[#126b4b] outline-none"
+                className="w-full h-12 px-4 rounded-lg bg-gray-800 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
 
             <div>
-              <label className="text-white text-xl font-semibold mb-1 block">Nova senha</label>
+              <label className="text-white text-lg font-semibold mb-2 block">Nova senha</label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -87,40 +88,51 @@ export default function ResetPassword() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="Digite a nova senha"
-                  className="w-full h-[3rem] px-3 py-2 mt-1 rounded bg-white text-gray-600 text-xl focus:ring-2 focus:ring-[#126b4b] outline-none pr-10"
+                  className="w-full h-12 px-4 rounded-lg bg-gray-800 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 pr-12"
                 />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-3 text-[#126b4b]">
-                  {showPassword ? <FiEyeOff size={30} /> : <FiEye size={30} />}
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500 hover:text-green-400"
+                  aria-label="Mostrar/ocultar senha"
+                >
+                  {showPassword ? <FiEyeOff size={24} /> : <FiEye size={24} />}
                 </button>
               </div>
             </div>
 
             <div>
-              <label className="text-white text-xl font-semibold mb-1 block">Confirmar nova senha</label>
+              <label className="text-white text-lg font-semibold mb-2 block">Confirmar nova senha</label>
               <input
                 type="password"
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirme a nova senha"
-                className="w-full h-[3rem] px-3 py-2 mt-1 rounded bg-white text-gray-600 text-xl focus:ring-2 focus:ring-[#126b4b] outline-none"
+                className="w-full h-12 px-4 rounded-lg bg-gray-800 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
 
-            <button type="submit" className="glow-hover cursor-pointer mt-2 bg-[#00c476] text-white font-bold py-3 rounded-md text-2xl hover:bg-[#126b4b] transition-transform duration-300 hover:scale-105">
+            <button
+              type="submit"
+              className="w-full bg-green-600 hover:bg-green-700 transition rounded-lg py-3 text-white font-bold text-xl shadow-md hover:shadow-lg transform hover:scale-105"
+            >
               Redefinir senha
             </button>
           </form>
 
-          <div className="text-center mt-10">
-            <Link to="/login">
-              <span className="hover:underline text-[#00c476] hover:text-[#126b4b]">Voltar ao login</span>
+          <div className="mt-8 text-center">
+            <Link to="/login" className="text-green-500 hover:text-green-400 hover:underline font-medium">
+              Voltar ao login
             </Link>
           </div>
         </div>
       </div>
 
-      <div className="w-full md:w-1/2 hidden md:block bg-cover bg-center" style={{ backgroundImage: `url(${BackgroundImage})` }} />
+      <div
+        className="w-full md:w-1/2 hidden md:block bg-cover bg-center transition-opacity duration-700"
+        style={{ backgroundImage: `url(${BackgroundImage})` }}
+      />
     </div>
   );
 }

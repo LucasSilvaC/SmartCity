@@ -12,10 +12,6 @@ export default function TooltipBalloon({ children, message }) {
         style={{ whiteSpace: "normal" }}
       >
         <div className="relative">
-          <div
-            className="absolute top-[-2px] right-1 w-4 h-4 bg-white rotate-45
-              border-l border-t border-gray-300"
-          />
           {message}
         </div>
       </div>

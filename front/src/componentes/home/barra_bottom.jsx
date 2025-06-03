@@ -2,7 +2,7 @@ import { useState } from "react";
 import BottombarButton from "./buttons/barra_bottom_button";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { WiHumidity } from "react-icons/wi";
-import { FaBoltLightning } from "react-icons/fa6";
+import { GoLightBulb } from "react-icons/go";
 import { BsPersonStanding } from "react-icons/bs";
 import { FiSettings } from "react-icons/fi";
 import Settings from "../../pages/settings/settings";
@@ -31,7 +31,7 @@ export default function BottomBar() {
           <BottombarButton label="Umidade" Icon={WiHumidity} />
         </div>
         <div onClick={() => handleRedirect("/sensor_luminosidade")}>
-          <BottombarButton label="Luminosidade" Icon={FaBoltLightning} />
+          <BottombarButton label="Luminosidade" Icon={GoLightBulb } />
         </div>
         <div onClick={() => handleRedirect("/sensor_contador")}>
           <BottombarButton label="Contador" Icon={BsPersonStanding} />

@@ -11,7 +11,7 @@ export default function Header_button({ onClick, label }) {
         items-center 
         text-white 
         uppercase 
-        font-semibold 
+        font-extrabold 
         text-lg 
         px-8 
         py-3
@@ -20,13 +20,20 @@ export default function Header_button({ onClick, label }) {
         transition-all 
         duration-300 
         ease-in-out
-        shadow-[inset_0_0_0_2px_#737385,0_0_0_2px_#2E2F3B]
-        bg-[#5A5B67]
-        hover:bg-[#4f5060] 
-        hover:scale-105 
-        hover:shadow-[inset_0_0_0_2px_#737385,0_0_0_2px_#1f1f2b]
+        rounded-xl
+        bg-gradient-to-br
+        from-gray-900
+        via-gray-800
+        to-gray-900
+        border
+        border-gray-700
+        shadow-xl
+        hover:shadow-2xl
+        hover:scale-105
         focus:ring-4 
-        focus:ring-green-300
+        focus:ring-green-400
+        active:scale-95
+        cursor-pointer
       "
       style={{
         clipPath: "polygon(0 0, 100% 0, 80% 100%, 20% 100%)",
