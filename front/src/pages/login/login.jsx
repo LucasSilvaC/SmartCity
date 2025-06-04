@@ -68,7 +68,7 @@ export default function Login() {
         />
       )}
 
-      <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 relative">
+      <div className="w-full md:w-2/3 flex flex-col items-center justify-center p-8 relative">
         <img
           src={Logo}
           alt="Logo SmartCity"

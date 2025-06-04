@@ -3,19 +3,25 @@ import React, { useState, useEffect, useRef } from "react";
 function Map({ children }) {
   const larguraImagem = 1000;
   const alturaImagem = 480;
-  const fatorZoom = 5;
-  const velocidade = 7.2;
 
-  const larguraTotal = larguraImagem * fatorZoom;
-  const alturaTotal = alturaImagem * fatorZoom;
+  const fatorZoom = 2.7;
+
+  const velocidade = 7.2;
 
   const [larguraJanela, setLarguraJanela] = useState(window.innerWidth);
   const [alturaJanela, setAlturaJanela] = useState(window.innerHeight);
 
-  const posicaoInicialX = Math.max(0, (larguraTotal / 2) - (larguraJanela / 2));
-  const posicaoInicialY = Math.max(0, (alturaTotal / 2) - (alturaJanela / 2));
+  const calculaLimites = () => {
+    const maxX = Math.max(0, larguraImagem - larguraJanela / fatorZoom);
+    const maxY = Math.max(0, alturaImagem - alturaJanela / fatorZoom);
+    return { maxX, maxY };
+  };
 
-  const [posicao, setPosicao] = useState({ x: posicaoInicialX, y: posicaoInicialY });
+  const { maxX: limXInicial, maxY: limYInicial } = calculaLimites();
+  const posInicialX = Math.max(0, limXInicial / 2);
+  const posInicialY = Math.max(0, limYInicial / 2);
+
+  const [posicao, setPosicao] = useState({ x: posInicialX, y: posInicialY });
   const posicaoRef = useRef(posicao);
 
   const teclasAtivas = useRef({});
@@ -24,8 +30,8 @@ function Map({ children }) {
   const img = "/Senai_map.png";
 
   useEffect(() => {
-    posicaoRef.current = posicao; 
-  }, []);
+    posicaoRef.current = posicao;
+  }, [posicao]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,11 +43,12 @@ function Map({ children }) {
   }, []);
 
   useEffect(() => {
-    const novaX = Math.max(0, (larguraTotal / 2) - (larguraJanela / 2));
-    const novaY = Math.max(0, (alturaTotal / 2) - (alturaJanela / 2));
-    setPosicao({ x: novaX, y: novaY });
-    posicaoRef.current = { x: novaX, y: novaY };
-  }, [larguraJanela, alturaJanela, larguraTotal, alturaTotal]);
+    const { maxX, maxY } = calculaLimites();
+    const novaPosX = Math.max(0, maxX / 2);
+    const novaPosY = Math.max(0, maxY / 2);
+    setPosicao({ x: novaPosX, y: novaPosY });
+    posicaoRef.current = { x: novaPosX, y: novaPosY };
+  }, [larguraJanela, alturaJanela]);
 
   useEffect(() => {
     const pressionarTecla = (e) => {
@@ -61,11 +68,10 @@ function Map({ children }) {
       if (teclasAtivas.current["ArrowLeft"]) novaX -= velocidade;
       if (teclasAtivas.current["ArrowRight"]) novaX += velocidade;
 
-      const limiteX = Math.max(0, larguraTotal - larguraJanela);
-      const limiteY = Math.max(0, alturaTotal - alturaJanela);
+      const { maxX, maxY } = calculaLimites();
 
-      novaX = Math.min(Math.max(novaX, 0), limiteX);
-      novaY = Math.min(Math.max(novaY, 0), limiteY);
+      novaX = Math.min(Math.max(novaX, 0), maxX);
+      novaY = Math.min(Math.max(novaY, 0), maxY);
 
       const novaPos = { x: novaX, y: novaY };
       posicaoRef.current = novaPos;
@@ -102,7 +108,7 @@ function Map({ children }) {
           position: "absolute",
           width: `${larguraImagem}px`,
           height: "auto",
-          transform: `translate(-${posicao.x}px, -${posicao.y}px) scale(${fatorZoom})`,
+          transform: `scale(${fatorZoom}) translate(-${posicao.x}px, -${posicao.y}px)`,
           transformOrigin: "top left",
           userSelect: "none",
           pointerEvents: "none",
@@ -110,8 +116,8 @@ function Map({ children }) {
         draggable={false}
       />
       {React.cloneElement(children, {
-        larguraTotal,
-        alturaTotal,
+        larguraTotal: larguraImagem * fatorZoom,
+        alturaTotal: alturaImagem * fatorZoom,
       })}
     </div>
   );

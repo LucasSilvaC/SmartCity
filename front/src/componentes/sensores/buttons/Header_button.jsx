@@ -31,7 +31,6 @@ export default function Header_button({ onClick, label }) {
         hover:shadow-2xl
         hover:scale-105
         focus:ring-4 
-        focus:ring-green-400
         active:scale-95
         cursor-pointer
       "

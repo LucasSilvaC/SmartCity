@@ -56,7 +56,7 @@ export default function ResetPassword() {
       {isLoading && <LoadingOverlay />}
       {modal.show && <ModalMessage message={modal.message} type={modal.type} onClose={closeModal} />}
 
-      <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 relative">
+      <div className="w-full md:w-2/3 flex flex-col items-center justify-center p-8 relative">
         <img src={Logo} alt="Logo SmartCity" className="absolute top-6 left-6 w-28 md:w-32 select-none" />
         <div
           className={`transition-opacity duration-700 w-full max-w-md p-10 rounded-2xl bg-black bg-opacity-60 shadow-xl border border-gray-700 ${fadeOut ? "opacity-0" : "opacity-100"}`}

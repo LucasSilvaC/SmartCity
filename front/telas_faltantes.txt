@@ -1,11 +1,7 @@
-Sensores (*)
-
+Ambientes
 Mapa
-Home-Endpoints clicaveis
+Dashboard
 Tela Perfil
 Ajuda
+Home-Endpoints clicaveis
 Documentação
-
-Historico
-Ambientes
-Dashboard

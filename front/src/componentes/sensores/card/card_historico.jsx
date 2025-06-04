@@ -1,9 +1,10 @@
+import { MdOutlineSensors } from "react-icons/md";
+
 export default function Card({
     sensor,
     status,
     valor,
     timestamp,
-    Icon,
 }) {
     const formatDate = (isoString) => {
         if (!isoString) return "";
@@ -17,41 +18,27 @@ export default function Card({
         });
     };
 
+    console.log(sensor)
+
     return (
         <div
-            className="
-                relative
-                bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900
-                border border-gray-700 rounded-md
-                w-[28rem] h-[16rem] p-6
-                shadow-xl
-                transition-transform transition-shadow duration-300
-                overflow-hidden
-                cursor-pointer
-                hover:scale-105
-                hover:shadow-2xl
-                flex flex-col items-center text-center
-            "
+            className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900
+                border border-gray-700 rounded-md w-[28rem] h-[16rem] p-6
+                shadow-xl transition-transform transition-shadow duration-300
+                overflow-hidden cursor-pointer hover:scale-105 hover:shadow-2xl
+                flex flex-col items-center text-center"
         >
             <div
-                className="
-                    pointer-events-none
-                    absolute -top-16 -left-32 w-20 h-[150%]
+                className="pointer-events-none absolute -top-16 -left-32 w-20 h-[150%]
                     bg-gradient-to-r from-transparent via-white/40 to-transparent
-                    transform -skew-x-12
-                    opacity-0
-                    hover:opacity-70
-                    transition-opacity duration-500
-                    animate-refletir
-                "
+                    transform -skew-x-12 opacity-0 hover:opacity-70
+                    transition-opacity duration-500 animate-refletir"
             />
 
-            {Icon && (
-              <Icon
-                className="relative z-0 text-gray-200 w-16 h-16 mb-4 mx-auto"
+            <MdOutlineSensors
+                className="relative z-10 text-white w-20 h-20 mb-6 mx-auto"
                 title="Sensor Icon"
-              />
-            )}
+            />
 
             <h2 className="relative z-10 text-white text-3xl font-extrabold mb-6 tracking-wide truncate w-full">
                 {sensor}
