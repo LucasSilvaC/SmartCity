@@ -11,6 +11,7 @@ from openpyxl import load_workbook, Workbook
 from openpyxl.utils import get_column_letter
 from datetime import datetime
 from rest_framework_simplejwt.tokens import RefreshToken
+from .filters import HistoricoFilter
 
 from .models import (
     User,
@@ -278,7 +279,7 @@ class HistoricoListCreateView(ListCreateAPIView):
     serializer_class = HistoricoSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['sensor', 'ambiente']
+    filterset_class = HistoricoFilter  
     search_fields = ['sensor__sensor', 'ambiente__descricao']
 
     def get_queryset(self):
