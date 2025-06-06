@@ -1,6 +1,6 @@
 import { MdOutlineSensors } from "react-icons/md";
 
-export default function Card({
+export default function CardHistorico({
     sensor,
     status,
     valor,
@@ -18,8 +18,6 @@ export default function Card({
         });
     };
 
-    console.log(sensor)
-
     return (
         <div
             className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900
@@ -36,7 +34,7 @@ export default function Card({
             />
 
             <MdOutlineSensors
-                className="relative z-10 text-white w-20 h-20 mb-6 mx-auto"
+                className="relative z-20 text-white w-40 h-40 mb-6 mx-auto bg-amber-500"
                 title="Sensor Icon"
             />
 

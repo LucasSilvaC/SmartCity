@@ -3,17 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Header from "../../componentes/sensores/header/header";
 import senai_map from "../../../public/senai_map.png";
-import Card from "../../componentes/sensores/card/card_historico";
-
-function formatTempoDecorrido(segundos) {
-  if (segundos < 60) {
-    return `${segundos}s`;
-  } else {
-    const minutos = Math.floor(segundos / 60);
-    const seg = segundos % 60;
-    return `${minutos}m ${seg}s`;
-  }
-}
+import CardHistorico from "../../componentes/sensores/card/card_historico";
+import { SelectTable } from "../../componentes/select/selectTable";
 
 export default function Historico() {
   const navigate = useNavigate();
@@ -21,6 +12,7 @@ export default function Historico() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sensorFilter, setSensorFilter] = useState("luminosidade");
+  const [statusFilter, setStatusFilter] = useState("true"); 
 
   const [startIndex, setStartIndex] = useState(0);
   const [ultimaAtualizacao, setUltimaAtualizacao] = useState(Date.now());
@@ -31,8 +23,22 @@ export default function Historico() {
 
   const cardsPorPagina = 6;
 
+  const optionsSensor = [
+    { value: "luminosidade", label: "Luminosidade" },
+    { value: "contador", label: "Contador" },
+    { value: "umidade", label: "Umidade" },
+    { value: "temperatura", label: "Temperatura" },
+  ];
+
+  const optionsStatus = [
+    { value: "true", label: "Ativo" },
+    { value: "false", label: "Inativo" },
+  ];
+
   useEffect(() => {
     const token = localStorage.getItem("token");
+
+    const statusBoolean = statusFilter === "true";
 
     axios
       .get(`http://127.0.0.1:8000/api/historicos/`, {
@@ -41,6 +47,7 @@ export default function Historico() {
         },
         params: {
           sensor: sensorFilter,
+          status: statusBoolean, 
         },
       })
       .then((response) => {
@@ -52,7 +59,7 @@ export default function Historico() {
         setError(err.message || "Erro ao carregar históricos");
         setLoading(false);
       });
-  }, [sensorFilter]);
+  }, [sensorFilter, statusFilter]); 
 
   useEffect(() => {
     if (historicos.length === 0) return;
@@ -102,17 +109,20 @@ export default function Historico() {
       <div className="max-w-screen-xl mx-auto mt-[5%] px-6">
         <h1 className="text-5xl font-bold text-white text-center mb-6">Histórico de Sensores</h1>
 
-        <div className="flex justify-center gap-4 mb-6">
-          <select
-            className="bg-gray-800 text-white py-3 px-6 cursor-pointer rounded-md shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 appearance-none"
-            value={sensorFilter}
-            onChange={(e) => setSensorFilter(e.target.value)}
-          >
-            <option value="luminosidade" className="hover:bg-gray-700 transition-colors">Luminosidade</option>
-            <option value="contador" className="hover:bg-gray-700 transition-colors">Contador</option>
-            <option value="umidade" className="hover:bg-gray-700 transition-colors">Umidade</option>
-            <option value="temperatura" className="hover:bg-gray-700 transition-colors">Temperatura</option>
-          </select>
+        <div className="flex justify-center gap-4 mb-6 relative">
+          <SelectTable
+            options={optionsSensor}
+            selectedOption={{ label: sensorFilter, value: sensorFilter }}
+            setSelectedOption={(option) => setSensorFilter(option.value)}
+            tituloInput="Selecione o tipo de Sensor"
+          />
+          
+          <SelectTable
+            options={optionsStatus}
+            selectedOption={{ label: statusFilter === "true" ? "Ativo" : "Inativo", value: statusFilter }}
+            setSelectedOption={(option) => setStatusFilter(option.value)}
+            tituloInput="Selecione o status de atividade"
+          />
         </div>
 
         {loading && <p className="text-white text-center">Carregando históricos...</p>}
@@ -121,7 +131,7 @@ export default function Historico() {
         {!loading && !error && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {historicosVisiveis.map((historico) => (
-              <Card
+              <CardHistorico
                 key={historico.id}
                 sensor={historico.sensor}
                 mac_address={historico.sensor.mac_address}
