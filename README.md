@@ -1,6 +1,6 @@
 # 👋 &nbsp;Hi there
 # SmartCity
-A real example for a Smart City.
+A new way to see your city.
 
 &nbsp;
 
