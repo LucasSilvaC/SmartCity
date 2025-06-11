@@ -14,7 +14,7 @@ import logo from "../../assets/SmartCity_Logo.png";
 const options = [
   { title: "Continuar", icon: FaPlay, path: "/home" },
   { title: "Ajuda", icon: FaQuestionCircle, path: "/ajuda" },
-  { title: "Documentação", icon: FaBook, path: "/documentacao" },
+  { title: "Prototipação", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg", path: "https://www.figma.com/proto/xyz123" },
   { title: "Sair", icon: FaDoorOpen, path: "/login" },
 ];
 
@@ -38,7 +38,12 @@ export default function Settings({ onClose }) {
       onClose?.();
       return;
     }
-    navigate(path);
+
+    if (title === "Prototipação") {
+      window.open(path, "_blank"); 
+    } else {
+      navigate(path);
+    }
   };
 
   return (

@@ -13,7 +13,6 @@ import Sensor_temperatura from './pages/sensores/temperatura/sensor_temperatura'
 import ProtectedRoute from "./componentes/autenticacao/protect";
 import Ambientes from "./pages/ambientes/ambientes"
 import Dashboards from "./pages/dashboards/dashboards"
-import Mapa from "./pages/mapa/mapa"
 import Historico from "./pages/historico/historico"
 
 export default function App() {
@@ -36,7 +35,6 @@ export default function App() {
           <Route path="/sensor_temperatura" element={<Sensor_temperatura />} />
           <Route path="/ambientes" element={<Ambientes />} />
           <Route path="/dashboards" element={<Dashboards />} />
-          <Route path="/mapa" element={<Mapa />} />
           <Route path="/historico" element={<Historico />} />
         </Route>
       </Routes>
