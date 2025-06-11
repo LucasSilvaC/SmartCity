@@ -59,11 +59,6 @@ export default function Sidebar() {
           Icon={GoGraph}
           onClick={() => navigate("/dashboards")}
         />
-        <SidebarButton
-          label="Mapa"
-          Icon={LuMapPin}
-          onClick={() => navigate("/mapa")}
-        />
         <div className="flex-grow"></div>
         <SidebarButton
           label="Perfil"

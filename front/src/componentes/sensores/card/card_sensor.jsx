@@ -9,31 +9,9 @@ export default function Card({
 }) {
   return (
     <div
-      className="
-        relative 
-        bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 
-        border border-gray-700 rounded-md 
-        w-[28rem] h-[14rem] p-6 
-        shadow-xl 
-        transition-transform transition-shadow duration-300 
-        overflow-hidden
-        cursor-pointer
-        hover:scale-105 
-        hover:shadow-2xl
-      "
+      className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border border-gray-700 rounded-md w-[28rem] h-[14rem] p-6 shadow-xl transition-transform transition-shadow duration-300 overflow-hidden cursor-pointer hover:scale-105 hover:shadow-2xl"
     >
-      <div
-        className="
-          pointer-events-none
-          absolute -top-16 -left-32 w-20 h-[150%] 
-          bg-gradient-to-r from-transparent via-white/40 to-transparent
-          transform -skew-x-12
-          opacity-0
-          hover:opacity-70
-          transition-opacity duration-500
-          animate-refletir
-        "
-      />
+      <div className="pointer-events-none absolute -top-16 -left-32 w-20 h-[150%] bg-gradient-to-r from-transparent via-white/40 to-transparent transform -skew-x-12 opacity-0 hover:opacity-70 transition-opacity duration-500 animate-refletir" />
 
       <h2 className="relative z-10 text-white text-3xl font-extrabold mb-5 tracking-wide truncate">
         {sensor}
@@ -53,10 +31,9 @@ export default function Card({
         <div>
           <p className="font-semibold text-gray-400 uppercase tracking-wide">Status</p>
           <p
-            className={`mt-1 font-semibold ${status.toLowerCase() === "ativo"
-              ? "text-green-400"
-              : "text-red-400"
-              }`}
+            className={`mt-1 font-semibold ${
+              status.toLowerCase() === "ativo" ? "text-green-400" : "text-red-400"
+            }`}
           >
             {status}
           </p>
@@ -64,12 +41,12 @@ export default function Card({
 
         <div>
           <p className="font-semibold text-gray-400 uppercase tracking-wide">Latitude</p>
-          <p className="mt-1">{latitude.toFixed(5)}</p>
+          <p className="mt-1">{latitude ? latitude.toFixed(5) : "N/A"}</p>
         </div>
 
         <div>
           <p className="font-semibold text-gray-400 uppercase tracking-wide">Longitude</p>
-          <p className="mt-1">{longitude.toFixed(5)}</p>
+          <p className="mt-1">{longitude ? longitude.toFixed(5) : "N/A"}</p>
         </div>
 
         <div />
