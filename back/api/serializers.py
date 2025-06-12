@@ -9,17 +9,19 @@ from .models import (
 class SensorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sensor
-        fields = '__all__'
+        fields = ['id', 'sensor', 'mac_address', 'unidade_med', 'status', 'latitude', 'longitude']
 
 class AmbienteSerializer(serializers.ModelSerializer):
-    class Meta:
+   class Meta:
         model = Ambiente
-        fields = '__all__'
+        fields = ['id', 'sig', 'descricao', 'ni', 'responsavel']
 
 class HistoricoSerializer(serializers.ModelSerializer):
+    sensor = SensorSerializer(read_only=True)  
+
     class Meta:
         model = Historico
-        fields = '__all__'
+        fields = ['id', 'sensor', 'ambiente', 'valor', 'timestamp']
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
