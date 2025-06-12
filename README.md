@@ -33,3 +33,22 @@ A new way to see your city.
 <li>npm install tailwind-merge</li>  
 <li>npm install leaflet react-leaflet</li>
 </ul>
+
+## 🐊 &nbsp;Urls para teste do Mestre Lindomar
+<ul>
+<li>pip install django-cors-headers </li>
+<li>pip install djangorestframework-simplejwt </li>
+<li>pip install djangorestframework </li>
+<li>pip install django </li>
+<li>npm install react-router-dom </li>
+<li>npm i react-icons </li>
+<li>npm install lucide-react</li>
+<li>npm install axios</li>
+<li>npm install react-loading-icons</li>
+<li>npm install xlsx</li>
+<li>npm install tailwindcss @tailwindcss/vite</li>
+<li>npm install react-loading-indicators</li>  
+<li>npm install react-tsparticles</li>  
+<li>npm install tailwind-merge</li>  
+<li>npm install leaflet react-leaflet</li>
+</ul>
