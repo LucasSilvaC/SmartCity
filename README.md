@@ -16,39 +16,49 @@ A new way to see your city.
 &nbsp;
 
 ## 📖 &nbsp;Library
-<ul>
-<li>pip install django-cors-headers </li>
-<li>pip install djangorestframework-simplejwt </li>
-<li>pip install djangorestframework </li>
-<li>pip install django </li>
-<li>npm install react-router-dom </li>
-<li>npm i react-icons </li>
-<li>npm install lucide-react</li>
-<li>npm install axios</li>
-<li>npm install react-loading-icons</li>
-<li>npm install xlsx</li>
-<li>npm install tailwindcss @tailwindcss/vite</li>
-<li>npm install react-loading-indicators</li>  
-<li>npm install react-tsparticles</li>  
-<li>npm install tailwind-merge</li>  
-<li>npm install leaflet react-leaflet</li>
-</ul>
 
-## 🐊 &nbsp;Urls para teste do Mestre Lindomar
-<ul>
-<li>pip install django-cors-headers </li>
-<li>pip install djangorestframework-simplejwt </li>
-<li>pip install djangorestframework </li>
-<li>pip install django </li>
-<li>npm install react-router-dom </li>
-<li>npm i react-icons </li>
-<li>npm install lucide-react</li>
-<li>npm install axios</li>
-<li>npm install react-loading-icons</li>
-<li>npm install xlsx</li>
-<li>npm install tailwindcss @tailwindcss/vite</li>
-<li>npm install react-loading-indicators</li>  
-<li>npm install react-tsparticles</li>  
-<li>npm install tailwind-merge</li>  
-<li>npm install leaflet react-leaflet</li>
-</ul>
+### 🔙 Backend (Django)
+- `pip install django`
+- `pip install djangorestframework`
+- `pip install djangorestframework-simplejwt`
+- `pip install django-cors-headers`
+
+### 🔜 Frontend (React)
+- `npm install react-router-dom`
+- `npm install react-icons`
+- `npm install lucide-react`
+- `npm install axios`
+- `npm install react-loading-icons`
+- `npm install react-loading-indicators`
+- `npm install react-tsparticles`
+- `npm install xlsx`
+- `npm install leaflet react-leaflet`
+- `npm install tailwindcss @tailwindcss/vite`
+- `npm install tailwind-merge`
+
+## 🐊 &nbsp;Urls for tests
+
+```python
+# Autenticação
+path('token/', name="Gerar o Token e login"),
+path('token/refresh/', name="Dar refresh para atualizar o token"),
+path('register/', name="Registrar um usuário"),
+path('redefinir_senha/', name="Redefinir a senha do usuário"),
+
+# Sensor
+path('sensores/', name="Listar sensores"),
+path('sensor/<int:pk>/', name="Ver sensor individualmente"),
+path('sensores/upload_xlsx/', name="Importar arquivo xlsx para o banco"),
+path('sensores/exportar_xlsx/', name="Exportar arquivo xlsx do banco"),
+
+# Ambiente
+path('ambientes/', name="Listar ambientes"),
+path('ambiente/<int:pk>/', name="Ver ambiente individualmente"),
+path('ambientes/upload_xlsx/', name="Importar arquivo xlsx para o banco"),
+path('ambientes/exportar_xlsx/', name="Exportar arquivo xlsx do banco"),
+
+# Histórico
+path('historicos/', name="Listar históricos"),
+path('historico/<int:pk>/', name="Ver historico individualmente"),
+path('historicos/upload_xlsx/', name="Importar arquivo xlsx para o banco"),
+path('historicos/exportar_xlsx/', name="Exportar arquivo xlsx do banco"),
