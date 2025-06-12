@@ -7,7 +7,7 @@ import TopbarButton from "../../../componentes/sensores/buttons/barra_top";
 import Settings from "../../../pages/settings/settings";
 import SmartCity_logo from "../../../assets/SmartCity_Logo.png"
 
-export default function Header({ onMiddleClick, labels = {} }) {
+export default function Header({ onMiddleClick, labels = {}, historicoPath }) {
   const navigate = useNavigate();
   const [showHelp, setShowHelp] = useState(false);
 
@@ -30,7 +30,7 @@ export default function Header({ onMiddleClick, labels = {} }) {
 
       <Header_button onClick={() => navigate("/home")} label={labels.left || "Voltar"} />
       <Header_button onClick={onMiddleClick} label={labels.middle} />
-      <Header_button onClick={() => navigate("/historico")} label={labels.right} />
+      <Header_button onClick={() => navigate(historicoPath || "/historico")} label={labels.right || "Registros"} />
 
       {showHelp && <Settings onClose={() => setShowHelp(false)} />}
     </div>

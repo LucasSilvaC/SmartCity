@@ -121,9 +121,7 @@ export default function Sensor_temperatura() {
             <Header
                 onMiddleClick={() => console.log("Botão do meio clicado")}
                 labels={{
-                    left: "Voltar",
-                    middle: "temperatura",
-                    right: "Registros",
+                    middle: "Contador"
                 }}
             />
 

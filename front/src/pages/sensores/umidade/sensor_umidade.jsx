@@ -121,9 +121,7 @@ export default function Sensor_umidade() {
             <Header
                 onMiddleClick={() => console.log("Botão do meio clicado")}
                 labels={{
-                    left: "Voltar",
-                    middle: "umidade",
-                    right: "Registros",
+                    middle: "Contador"
                 }}
             />
 

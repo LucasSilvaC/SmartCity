@@ -121,9 +121,7 @@ export default function Sensor_luminosidade() {
             <Header
                 onMiddleClick={() => console.log("Botão do meio clicado")}
                 labels={{
-                    left: "Voltar",
-                    middle: "Luminosidade",
-                    right: "Registros",
+                    middle: "Contador"
                 }}
             />
 

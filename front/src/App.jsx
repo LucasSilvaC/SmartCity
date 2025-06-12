@@ -14,6 +14,7 @@ import ProtectedRoute from "./componentes/autenticacao/protect";
 import Ambientes from "./pages/ambientes/ambientes"
 import Dashboards from "./pages/dashboards/dashboards"
 import Historico from "./pages/historico/historico"
+import Historico_ambiente from "./pages/historico/historico_ambiente"
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/ambientes" element={<Ambientes />} />
           <Route path="/dashboards" element={<Dashboards />} />
           <Route path="/historico" element={<Historico />} />
+          <Route path="/historico_ambiente" element={<Historico_ambiente />} />
         </Route>
       </Routes>
     </Router>

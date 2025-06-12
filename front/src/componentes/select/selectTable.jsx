@@ -25,7 +25,7 @@ export function SelectTable({
   return (
     <div
       ref={dropdownRef}
-      className="relative w-full sm:w-[80%] max-w-[24rem] h-[3rem] bg-gray-800 border-b border-black rounded-lg z-30 transition duration-300 ease-in-out mb-[5%]"
+      className="relative w-full sm:w-[80%] max-w-[24rem] h-[3rem] bg-gray-800 border-b border-black rounded-md z-30 transition duration-300 ease-in-out mb-[5%]"
     >
       <label
         htmlFor="tabela"
@@ -34,7 +34,7 @@ export function SelectTable({
         {tituloInput}
       </label>
       <div
-        className="relative cursor-pointer w-full h-[2.5rem] px-[1.5vw] flex items-center justify-between text-white bg-gray-800 rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out"
+        className="relative cursor-pointer w-full h-[2.5rem] px-[1.5vw] flex items-center justify-between text-white bg-gray-800 rounded-md hover:bg-gray-700 transition duration-300 ease-in-out"
         onClick={() => setIsOpen(!isOpen)}
       >
         <p className="text-sm">
@@ -47,7 +47,7 @@ export function SelectTable({
         )}
       </div>
       {isOpen && (
-        <div className="absolute z-10 top-full left-0 w-full bg-white border border-gray-400 shadow-lg rounded-lg max-h-[10rem] overflow-auto mt-2 transition-all duration-300 ease-in-out">
+        <div className="absolute z-10 top-full left-0 w-full bg-white border border-gray-400 shadow-lg rounded-md max-h-[10rem] overflow-auto mt-2 transition-all duration-300 ease-in-out">
           {options.map((option) => (
             <div
               key={option.value}

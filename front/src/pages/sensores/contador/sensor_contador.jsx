@@ -47,6 +47,7 @@ export default function Sensor_contador() {
             })
             .then((response) => {
                 setSensores(response.data);
+                console.log(response.data)
                 setLoading(false);
                 setUltimaAtualizacao(Date.now());
                 setSensoresNaTabela([]);
@@ -121,9 +122,7 @@ export default function Sensor_contador() {
             <Header
                 onMiddleClick={() => console.log("Botão do meio clicado")}
                 labels={{
-                    left: "Voltar",
-                    middle: "Contador",
-                    right: "Registros",
+                    middle: "Contador"
                 }}
             />
 

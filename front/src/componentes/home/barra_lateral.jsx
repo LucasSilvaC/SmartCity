@@ -7,8 +7,6 @@ import { IoHomeOutline } from "react-icons/io5";
 import { MdOutlineHistory } from "react-icons/md";
 import { FaTree } from "react-icons/fa6";
 import { GoGraph } from "react-icons/go";
-import { CgProfile } from "react-icons/cg";
-import { LuMapPin } from "react-icons/lu";
 
 export default function Sidebar() {
   const [aberta, setAberta] = useState(true);
@@ -60,11 +58,6 @@ export default function Sidebar() {
           onClick={() => navigate("/dashboards")}
         />
         <div className="flex-grow"></div>
-        <SidebarButton
-          label="Perfil"
-          Icon={CgProfile}
-          onClick={() => navigate("/perfil")}
-        />
         <SidebarButton label="Logout" Icon={PiSignOutLight} onClick={handleLogout} />
       </aside>
     </>

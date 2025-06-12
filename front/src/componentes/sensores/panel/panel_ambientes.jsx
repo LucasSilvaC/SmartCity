@@ -1,27 +1,16 @@
 import React from "react";
+import { FaTree } from "react-icons/fa6";
 
-const imagens = import.meta.glob('../../../assets/Sensores/*.png', { eager: true });
-
-export default function Panel({ label, count}) {
+export default function Panel({ label, count }) {
   const nomeSensor = label.toLowerCase();
-  let decision = ""
-  if (count > 199){
-    decision = "Tipo de sensor"
+  let decision = "";
+  if (count > 199) {
+    decision = "Tipo de sensor";
   }
-  const imagemKey = Object.keys(imagens).find((key) =>
-    key.toLowerCase().includes(`${nomeSensor}.png`)
-  );
-  const imagemPath = imagemKey ? imagens[imagemKey].default : "";
 
   return (
-    <div className="relative w-full h-64 rounded-lg overflow-hidden shadow-md">
-      {imagemPath && (
-        <img
-          src={imagemPath}
-          alt={`Sensor ${label}`}
-          className="absolute inset-0 w-full h-full object-cover filter brightness-75"
-        />
-      )}
+    <div className="relative w-full h-64 rounded-lg overflow-hidden shadow-md bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-900 border border-gray-700">
+      <FaTree className="absolute text-white/80 text-[18rem] bottom-[-2rem] right-[-1rem] z-0" />
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
