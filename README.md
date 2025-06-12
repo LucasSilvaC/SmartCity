@@ -22,6 +22,7 @@ A new way to see your city.
 - `pip install djangorestframework`
 - `pip install djangorestframework-simplejwt`
 - `pip install django-cors-headers`
+- `pip install django-filter`
 
 ### 🔜 Frontend (React)
 - `npm install react-router-dom`
