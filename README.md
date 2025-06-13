@@ -64,6 +64,58 @@ path('historicos/', name="Listar históricos"),
 path('historico/<int:pk>/', name="Ver historico individualmente"),
 path('historicos/upload_xlsx/', name="Importar arquivo xlsx para o banco"),
 path('historicos/exportar_xlsx/', name="Exportar arquivo xlsx do banco"),
+  ```
 
 ## 🐊 &nbsp;Filters for tests
 
+* Filtrar por nome do sensor:
+
+  ```http
+  GET /historicos/?sensor=temp
+  ```
+* Filtrar registros a partir de uma data (timestamp ≥):
+
+  ```http
+  GET /historicos/?timestamp_after=2025-06-02T00:00:00Z
+  ```
+* Filtrar registros até uma data (timestamp ≤):
+
+  ```http
+  GET /historicos/?timestamp_before=2025-06-01T23:59:59Z
+  ```
+* Filtrar por intervalo de valor:
+
+  ```http
+  GET /historicos/?valor_min=26&valor_max=35
+  ```
+
+### Sensor
+
+* Filtrar por status (`true` ou `false`):
+
+  ```http
+  GET /sensores/?status=true
+  ```
+* Filtrar por unidade de medida (usar uma das opções definidas em `Sensor.TIPO`):
+
+  ```http
+  GET /sensores/?unidade_med=C
+  ```
+
+### Ambiente
+
+* Filtrar por NI:
+
+  ```http
+  GET /ambientes/?ni=SN75422 
+  ```
+* Filtrar por SIG:
+
+  ```http
+  GET /ambientes/?sig=20400001
+  ```
+* Filtrar por responsável:
+
+  ```http
+  GET /ambientes/?responsavel=cleber
+  ```
