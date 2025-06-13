@@ -1,7 +1,0 @@
-Ambientes
-Mapa
-Dashboard
-Tela Perfil
-Ajuda
-Home-Endpoints clicaveis
-Documentação
