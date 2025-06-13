@@ -37,6 +37,12 @@ A new way to see your city.
 - `npm install tailwindcss @tailwindcss/vite`
 - `npm install tailwind-merge`
 
+## 🔒 &nbsp;SuperUser
+
+```python
+User: Lucas
+Password: 123
+  ```
 
 ## 🐊 &nbsp;Urls for tests
 
@@ -71,7 +77,7 @@ path('historicos/exportar_xlsx/', name="Exportar arquivo xlsx do banco"),
 * Filtrar por nome do sensor:
 
   ```http
-  GET /historicos/?sensor=temp
+  GET /historicos/?sensor=temperatura
   ```
 * Filtrar registros a partir de uma data (timestamp ≥):
 
@@ -86,7 +92,7 @@ path('historicos/exportar_xlsx/', name="Exportar arquivo xlsx do banco"),
 * Filtrar por intervalo de valor:
 
   ```http
-  GET /historicos/?valor_min=26&valor_max=35
+  GET /historicos/?valor_min=1&valor_max=35
   ```
 
 ### Sensor
@@ -99,7 +105,7 @@ path('historicos/exportar_xlsx/', name="Exportar arquivo xlsx do banco"),
 * Filtrar por unidade de medida (usar uma das opções definidas em `Sensor.TIPO`):
 
   ```http
-  GET /sensores/?unidade_med=C
+  GET /sensores/?unidade_med=luminosidade
   ```
 
 ### Ambiente
@@ -107,7 +113,7 @@ path('historicos/exportar_xlsx/', name="Exportar arquivo xlsx do banco"),
 * Filtrar por NI:
 
   ```http
-  GET /ambientes/?ni=SN75422 
+  GET /ambientes/?ni=SN75422
   ```
 * Filtrar por SIG:
 
@@ -117,5 +123,5 @@ path('historicos/exportar_xlsx/', name="Exportar arquivo xlsx do banco"),
 * Filtrar por responsável:
 
   ```http
-  GET /ambientes/?responsavel=cleber
+  GET /ambientes/?responsavel=CESAR
   ```
