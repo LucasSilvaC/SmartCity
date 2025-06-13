@@ -1,0 +1,17 @@
+@keyframes refletir {
+  0% {
+    transform: translateX(-100%) skewX(-12deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(200%) skewX(-12deg);
+    opacity: 0;
+  }
+}
+
+.animate-refletir {
+  animation: refletir 2.5s ease-in-out infinite;
+}
