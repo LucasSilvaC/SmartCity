@@ -34,7 +34,7 @@ export default function Sensor_luminosidade() {
     const intervaloTrocaRef = useRef(null);
     const intervaloTempoRef = useRef(null);
 
-    const limitTabela = 8;
+    const limitTabela = 5;
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -120,48 +120,55 @@ export default function Sensor_luminosidade() {
 
             <Header
                 onMiddleClick={() => console.log("Botão do meio clicado")}
-                labels={{ middle: "Luminosidade" }}
+                labels={{ middle: "luminosidade" }}
             />
 
-            <main className="flex mt-[7%] max-w-[1400px] w-full mx-auto justify-center items-start gap-4">
-                <section aria-label="Tabela de sensores luminosos">
+            <main className="mt-[7%] max-w-[1400px] w-full mx-auto">
+                <section
+                    aria-label="Painel de sensores e tabela de luminosidade"
+                    className="flex justify-center items-start gap-4"
+                >
                     <Table sensores={sensoresNaTabela} limit={limitTabela} />
+
+                    <div
+                        aria-label="Painel com total de sensores de luminosidade"
+                        className="bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-900 relative z-20 flex w-[60%] flex-col justify-between p-6 rounded-xl shadow-2xl border border-gray-700 overflow-hidden"
+                    >
+                        <Panel label="luminosidade" count={sensores.length} />
+                    </div>
                 </section>
 
                 <section
-                    aria-label="Painel de contagem de sensores luminosos"
-                    className="bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-900 relative z-20 flex w-[60%] flex-col justify-between p-6 rounded-xl shadow-2xl border border-gray-700 overflow-hidden"
+                    aria-label="Tempo desde a última atualização"
+                    className="mt-4"
                 >
-                    <Panel label="Luminosidade" count={sensores.length} />
+                    <Line text={formatTempoDecorrido(tempoDesdeAtualizacao)} />
+                </section>
+
+                <section
+                    aria-label="Lista de cartões de sensores de luminosidade"
+                    className="flex max-w-[1530px] mt-[2%] w-full mx-auto justify-center items-start gap-13 flex-wrap"
+                    aria-live="polite"
+                >
+                    {loading && <p className="text-white">Carregando sensores...</p>}
+                    {error && <p className="text-red-500">{error}</p>}
+                    {!loading &&
+                        !error &&
+                        sensoresVisiveis.map((sensor) => (
+                            <article key={sensor.id}>
+                                <Card
+                                    sensor={sensor.sensor}
+                                    mac_address={sensor.mac_address}
+                                    unidade_med={sensor.unidade_med}
+                                    status={sensor.status ? "Ativo" : "Inativo"}
+                                    latitude={sensor.latitude}
+                                    longitude={sensor.longitude}
+                                    Icon={FaRegLightbulb}
+                                />
+                            </article>
+                        ))}
                 </section>
             </main>
-
-            <section aria-label="Tempo desde a última atualização" className="mt-4">
-                <Line text={formatTempoDecorrido(tempoDesdeAtualizacao)} />
-            </section>
-
-            <section
-                aria-label="Cartões dos sensores luminosos"
-                className="flex max-w-[1530px] mt-[2%] w-full mx-auto justify-center items-start gap-13 flex-wrap"
-            >
-                {loading && <p className="text-white">Carregando sensores...</p>}
-                {error && <p className="text-red-500">{error}</p>}
-                {!loading &&
-                    !error &&
-                    sensoresVisiveis.map((sensor) => (
-                        <article key={sensor.id}>
-                            <Card
-                                sensor={sensor.sensor}
-                                mac_address={sensor.mac_address}
-                                unidade_med={sensor.unidade_med}
-                                status={sensor.status ? "Ativo" : "Inativo"}
-                                latitude={sensor.latitude}
-                                longitude={sensor.longitude}
-                                Icon={FaRegLightbulb}
-                            />
-                        </article>
-                    ))}
-            </section>
         </>
     );
 }

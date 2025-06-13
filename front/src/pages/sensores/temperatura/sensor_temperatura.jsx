@@ -34,7 +34,7 @@ export default function Sensor_temperatura() {
     const intervaloTrocaRef = useRef(null);
     const intervaloTempoRef = useRef(null);
 
-    const limitTabela = 8;
+    const limitTabela = 5;
 
     useEffect(() => {
         const token = localStorage.getItem("token");

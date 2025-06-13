@@ -34,7 +34,7 @@ export default function Sensor_contador() {
     const intervaloTrocaRef = useRef(null);
     const intervaloTempoRef = useRef(null);
 
-    const limitTabela = 8;
+    const limitTabela = 5;
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -114,55 +114,62 @@ export default function Sensor_contador() {
             <div className="fixed inset-0 -z-10 overflow-hidden bg-[#191b1c]">
                 <img
                     src={senai_map}
-                    alt="Mapa estilizado do Senai como fundo da página"
+                    alt="Mapa estilizado do Senai como imagem de fundo"
                     className="w-full h-full object-cover blur-sm"
                 />
             </div>
 
             <Header
                 onMiddleClick={() => console.log("Botão do meio clicado")}
-                labels={{ middle: "Contador" }}
+                labels={{ middle: "contador" }}
             />
 
-            <main className="flex mt-[5%] max-w-[1400px] w-full mx-auto justify-center items-start gap-4">
-                <section aria-label="Tabela de sensores">
+            <main className="mt-[7%] max-w-[1400px] w-full mx-auto">
+                <section
+                    aria-label="Painel de sensores e tabela de contador"
+                    className="flex justify-center items-start gap-4"
+                >
                     <Table sensores={sensoresNaTabela} limit={limitTabela} />
+
+                    <div
+                        aria-label="Painel com total de sensores de contador"
+                        className="bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-900 relative z-20 flex w-[60%] flex-col justify-between p-6 rounded-xl shadow-2xl border border-gray-700 overflow-hidden"
+                    >
+                        <Panel label="contador" count={sensores.length} />
+                    </div>
                 </section>
 
                 <section
-                    aria-label="Painel de contagem de sensores"
-                    className="bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-900 relative z-20 flex w-[60%] flex-col justify-between p-6 rounded-xl shadow-2xl border border-gray-700 overflow-hidden"
+                    aria-label="Tempo desde a última atualização"
+                    className="mt-4"
                 >
-                    <Panel label="Contador" count={sensores.length} />
+                    <Line text={formatTempoDecorrido(tempoDesdeAtualizacao)} />
+                </section>
+
+                <section
+                    aria-label="Lista de cartões de sensores de contador"
+                    className="flex max-w-[1530px] mt-[2%] w-full mx-auto justify-center items-start gap-13 flex-wrap"
+                    aria-live="polite"
+                >
+                    {loading && <p className="text-white">Carregando sensores...</p>}
+                    {error && <p className="text-red-500">{error}</p>}
+                    {!loading &&
+                        !error &&
+                        sensoresVisiveis.map((sensor) => (
+                            <article key={sensor.id}>
+                                <Card
+                                    sensor={sensor.sensor}
+                                    mac_address={sensor.mac_address}
+                                    unidade_med={sensor.unidade_med}
+                                    status={sensor.status ? "Ativo" : "Inativo"}
+                                    latitude={sensor.latitude}
+                                    longitude={sensor.longitude}
+                                    Icon={BsPersonStanding}
+                                />
+                            </article>
+                        ))}
                 </section>
             </main>
-
-            <section aria-label="Tempo desde a última atualização" className="mt-4">
-                <Line text={formatTempoDecorrido(tempoDesdeAtualizacao)} />
-            </section>
-
-            <section
-                aria-label="Lista de sensores em cartões"
-                className="flex max-w-[1530px] mt-[2%] w-full mx-auto justify-center items-start gap-13 flex-wrap"
-            >
-                {loading && <p className="text-white">Carregando sensores...</p>}
-                {error && <p className="text-red-500">{error}</p>}
-                {!loading &&
-                    !error &&
-                    sensoresVisiveis.map((sensor) => (
-                        <article key={sensor.id}>
-                            <Card
-                                sensor={sensor.sensor}
-                                mac_address={sensor.mac_address}
-                                unidade_med={sensor.unidade_med}
-                                status={sensor.status ? "Ativo" : "Inativo"}
-                                latitude={sensor.latitude}
-                                longitude={sensor.longitude}
-                                Icon={BsPersonStanding}
-                            />
-                        </article>
-                    ))}
-            </section>
         </>
     );
 }

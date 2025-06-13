@@ -34,7 +34,7 @@ export default function Sensor_umidade() {
     const intervaloTrocaRef = useRef(null);
     const intervaloTempoRef = useRef(null);
 
-    const limitTabela = 8;
+    const limitTabela = 5;
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -113,19 +113,19 @@ export default function Sensor_umidade() {
             <div className="fixed inset-0 -z-10 overflow-hidden bg-[#191b1c]">
                 <img
                     src={senai_map}
-                    alt="Imagem estilizada do mapa do Senai como fundo"
+                    alt="Mapa estilizado do Senai como imagem de fundo"
                     className="w-full h-full object-cover blur-sm"
                 />
             </div>
 
             <Header
                 onMiddleClick={() => console.log("Botão do meio clicado")}
-                labels={{ middle: "Umidade" }}
+                labels={{ middle: "umidade" }}
             />
 
             <main className="mt-[7%] max-w-[1400px] w-full mx-auto">
                 <section
-                    aria-label="Tabela e painel de sensores de umidade"
+                    aria-label="Painel de sensores e tabela de umidade"
                     className="flex justify-center items-start gap-4"
                 >
                     <Table sensores={sensoresNaTabela} limit={limitTabela} />
@@ -134,7 +134,7 @@ export default function Sensor_umidade() {
                         aria-label="Painel com total de sensores de umidade"
                         className="bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-900 relative z-20 flex w-[60%] flex-col justify-between p-6 rounded-xl shadow-2xl border border-gray-700 overflow-hidden"
                     >
-                        <Panel label="Umidade" count={sensores.length} />
+                        <Panel label="umidade" count={sensores.length} />
                     </div>
                 </section>
 
@@ -146,7 +146,7 @@ export default function Sensor_umidade() {
                 </section>
 
                 <section
-                    aria-label="Lista de sensores de umidade"
+                    aria-label="Lista de cartões de sensores de umidade"
                     className="flex max-w-[1530px] mt-[2%] w-full mx-auto justify-center items-start gap-13 flex-wrap"
                     aria-live="polite"
                 >

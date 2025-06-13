@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Table({ sensores = [], limit = 10 }) {
+export default function Table({ sensores = [], limit = 5 }) {
   const sensoresLimitados = sensores.slice(0, limit);
 
   return (
