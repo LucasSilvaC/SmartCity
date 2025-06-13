@@ -37,6 +37,7 @@ A new way to see your city.
 - `npm install tailwindcss @tailwindcss/vite`
 - `npm install tailwind-merge`
 
+
 ## 🐊 &nbsp;Urls for tests
 
 ```python
@@ -63,3 +64,6 @@ path('historicos/', name="Listar históricos"),
 path('historico/<int:pk>/', name="Ver historico individualmente"),
 path('historicos/upload_xlsx/', name="Importar arquivo xlsx para o banco"),
 path('historicos/exportar_xlsx/', name="Exportar arquivo xlsx do banco"),
+
+## 🐊 &nbsp;Filters for tests
+
