@@ -11,7 +11,7 @@ from openpyxl import load_workbook, Workbook
 from openpyxl.utils import get_column_letter
 from datetime import datetime
 from rest_framework_simplejwt.tokens import RefreshToken
-from .filters import HistoricoFilter
+from .filters import HistoricoFilter, AmbienteFilter
 
 from .models import (
     User,
@@ -66,6 +66,7 @@ class AmbienteListCreateView(ListCreateAPIView):
     serializer_class = AmbienteSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_class = AmbienteFilter  
     filterset_fields = ['sig', 'ni', 'responsavel']
     search_fields = ['ni', 'responsavel', 'descricao']
 
