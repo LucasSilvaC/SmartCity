@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import {
   FaPlay,
   FaQuestionCircle,
-  FaBook,
   FaDoorOpen,
   FaArrowLeft,
   FaArrowRight,
 } from "react-icons/fa";
+import { IoDocumentTextOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import SettingsCard from "../../componentes/settings/SettingsCard";
 import logo from "../../assets/SmartCity_Logo.png";
 
 const options = [
   { title: "Continuar", icon: FaPlay, path: "/home" },
-  { title: "Ajuda", icon: FaQuestionCircle, path: "/ajuda" },
+  { title: "Documentação", icon: IoDocumentTextOutline, path: "" },
   { title: "Prototipação", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg", path: "https://www.figma.com/proto/xyz123" },
   { title: "Sair", icon: FaDoorOpen, path: "/login" },
 ];

@@ -5,7 +5,6 @@ import Login from './pages/login/login';
 import Register from './pages/cadastro/register';
 import Home from './pages/home/home';
 import Redefinir_senha from './pages/cadastro/redefinir_senha';
-import Ajuda from "./pages/settings_extension/ajuda";
 import Sensor_luminosidade from './pages/sensores/luminosidade/luminosidade';
 import Sensor_contador from './pages/sensores/contador/sensor_contador';
 import Sensor_umidade from './pages/sensores/umidade/sensor_umidade';
@@ -25,7 +24,6 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/redefinir_senha" element={<Redefinir_senha />} />
-        <Route path="/ajuda" element={<Ajuda />} />
 
         {/* Rotas privadas */}
         <Route element={<ProtectedRoute />}>
