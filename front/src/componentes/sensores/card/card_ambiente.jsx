@@ -38,12 +38,12 @@ export default function Card({ sig, descricao, ni, responsavel, Icon }) {
       >
         <dl>
           <dt className="font-semibold text-gray-400 uppercase tracking-wide">SIG</dt>
-          <dd className="mt-1 font-mono">{sig}</dd>
+          <dd>{sig}</dd>
         </dl>
 
         <dl>
           <dt className="font-semibold text-gray-400 uppercase tracking-wide">Nº NI</dt>
-          <dd className="mt-1 font-mono">{ni}</dd>
+          <dd>{ni}</dd>
         </dl>
 
         <dl className="col-span-2">

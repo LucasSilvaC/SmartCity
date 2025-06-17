@@ -11,8 +11,7 @@ A new way to see your city.
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg" alt="Django" width="50" height="50"/>&nbsp;
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg" alt="Sqlite" width="50" height="50"/>&nbsp;
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" width="50" height="50"/>&nbsp;
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" alt="React" width="50" height="50"/>&nbsp;
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" alt="Figma" width="50" height="50"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" alt="React" width="50" height="50"/>
 
 &nbsp;
 
@@ -37,13 +36,6 @@ A new way to see your city.
 - `npm install leaflet react-leaflet`
 - `npm install tailwindcss @tailwindcss/vite`
 - `npm install tailwind-merge`
-
-## 🔒 &nbsp;SuperUser
-
-```python
-User: Lucas
-Password: 123
-  ```
 
 ## 🐊 &nbsp;Urls for tests
 
@@ -71,58 +63,3 @@ path('historicos/', name="Listar históricos"),
 path('historico/<int:pk>/', name="Ver historico individualmente"),
 path('historicos/upload_xlsx/', name="Importar arquivo xlsx para o banco"),
 path('historicos/exportar_xlsx/', name="Exportar arquivo xlsx do banco"),
-  ```
-
-## 🐊 &nbsp;Filters for tests
-
-* Filtrar por nome do sensor:
-
-  ```http
-  GET /historicos/?sensor=temperatura
-  ```
-* Filtrar registros a partir de uma data (timestamp ≥):
-
-  ```http
-  GET /historicos/?timestamp_after=2025-06-02T00:00:00Z
-  ```
-* Filtrar registros até uma data (timestamp ≤):
-
-  ```http
-  GET /historicos/?timestamp_before=2025-06-01T23:59:59Z
-  ```
-* Filtrar por intervalo de valor:
-
-  ```http
-  GET /historicos/?valor_min=1&valor_max=35
-  ```
-
-### Sensor
-
-* Filtrar por status (`true` ou `false`):
-
-  ```http
-  GET /sensores/?status=true
-  ```
-* Filtrar por unidade de medida (usar uma das opções definidas em `Sensor.TIPO`):
-
-  ```http
-  GET /sensores/?unidade_med=luminosidade
-  ```
-
-### Ambiente
-
-* Filtrar por NI:
-
-  ```http
-  GET /ambientes/?ni=SN75422
-  ```
-* Filtrar por SIG:
-
-  ```http
-  GET /ambientes/?sig=20400001
-  ```
-* Filtrar por responsável:
-
-  ```http
-  GET /ambientes/?responsavel=CESAR
-  ```

@@ -64,12 +64,12 @@ export default function CardHistorico({ sensor, status, valor, timestamp, Icon }
 
         <dl className="flex flex-col items-center">
           <dt className="font-semibold text-gray-400 uppercase tracking-wide mb-1">Valor</dt>
-          <dd className="font-mono">{valor !== undefined ? valor : "-"}</dd>
+          <dd>{valor !== undefined ? valor : "-"}</dd>
         </dl>
 
         <dl className="flex flex-col items-center">
           <dt className="font-semibold text-gray-400 uppercase tracking-wide mb-1">Timestamp</dt>
-          <dd className="font-mono">{formatDate(timestamp)}</dd>
+          <dd>{formatDate(timestamp)}</dd>
         </dl>
       </section>
     </article>

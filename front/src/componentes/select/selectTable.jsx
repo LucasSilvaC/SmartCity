@@ -25,7 +25,7 @@ export function SelectTable({
   return (
     <section
       ref={dropdownRef}
-      className="relative w-full sm:w-[80%] max-w-[24rem] h-[3rem] bg-gray-800 border-b border-black rounded-md z-30 transition duration-300 ease-in-out mb-[5%]"
+      className="relative w-full sm:w-[80%] max-w-[24rem] h-[3rem] bg-gray-700 border-b border-black rounded-md z-30 transition duration-300 ease-in-out mb-[5%]"
       aria-label={`Seletor: ${tituloInput}`}
     >
       <label
@@ -66,7 +66,7 @@ export function SelectTable({
                 setSelectedOption(option);
                 setIsOpen(false);
               }}
-              className="px-[1.5vw] py-2 text-sm text-gray-800 cursor-pointer hover:bg-gray-300 hover:text-black rounded-md transition duration-200 ease-in-out"
+              className="px-[1.5vw] py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-300 hover:text-black rounded-md transition duration-200 ease-in-out"
               role="option"
               aria-selected={selectedOption?.value === option.value}
             >

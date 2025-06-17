@@ -143,10 +143,24 @@ class SensorListCreateView(ListCreateAPIView):
     filterset_fields = ['id', 'sensor', 'status', 'unidade_med', 'mac_address']
     search_fields = ['sensor', 'mac_address']
 
-class SensorDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = Sensor.objects.all()
-    serializer_class = SensorSerializer
-    permission_classes = [IsAuthenticated]
+class SensorDetailView(APIView):
+    def get(self, request, pk):
+        sensor = Sensor.objects.get(pk=pk)
+        serializer = SensorSerializer(sensor)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        sensor = Sensor.objects.get(pk=pk)
+        serializer = SensorSerializer(sensor, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        sensor = Sensor.objects.get(pk=pk)
+        sensor.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 def str_to_bool(val):
     if isinstance(val, str):

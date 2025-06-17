@@ -46,7 +46,7 @@ export default function Card({
       >
         <dl>
           <dt className="font-semibold text-gray-400 uppercase tracking-wide">MAC Address</dt>
-          <dd className="mt-1 font-mono break-words">{mac_address}</dd>
+          <dd className="mt-1 break-words">{mac_address}</dd>
         </dl>
 
         <dl className="flex flex-col items-center">
