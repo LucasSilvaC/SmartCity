@@ -3,6 +3,7 @@ from .models import Historico, Sensor, Ambiente
 
 class HistoricoFilter(django_filters.FilterSet):
     sensor = django_filters.CharFilter(field_name='sensor__sensor', lookup_expr='icontains')
+    status = django_filters.BooleanFilter(field_name='sensor__status')  # <-- AQUI
     timestamp_after = django_filters.IsoDateTimeFilter(field_name='timestamp', lookup_expr='gte')
     timestamp_before = django_filters.IsoDateTimeFilter(field_name='timestamp', lookup_expr='lte')
     valor_min = django_filters.NumberFilter(field_name='valor', lookup_expr='gte')
@@ -10,7 +11,7 @@ class HistoricoFilter(django_filters.FilterSet):
 
     class Meta:
         model = Historico
-        fields = ['sensor', 'timestamp_after', 'timestamp_before', 'valor_min', 'valor_max']
+        fields = ['sensor', 'status', 'timestamp_after', 'timestamp_before', 'valor_min', 'valor_max']
 
 class SensorFilter(django_filters.FilterSet):
     status = django_filters.BooleanFilter()
