@@ -39,7 +39,7 @@ export default function Alert({ message, type, onClose }) {
 
         <button
           onClick={onClose}
-          className="w-full sm:w-4/5 h-11 rounded-lg border-2 border-green-600 bg-transparent text-white font-semibold hover:bg-green-600 hover:shadow-lg transition duration-300 cursor-pointer"
+          className="w-full sm:w-4/5 h-11 rounded-lg border-2 border-green-600 bg-transparent text-white font-semibold hover:bg-[#126B4B] hover:shadow-lg transition duration-300 cursor-pointer"
           aria-label="Fechar modal"
         >
           OK

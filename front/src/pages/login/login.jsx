@@ -135,7 +135,7 @@ export default function Login() {
 
             <button
               type="submit"
-              className="cursor-pointer w-full bg-green-600 hover:bg-green-700 transition rounded-lg py-3 text-white font-bold text-xl shadow-md hover:shadow-lg transform hover:scale-105"
+              className="cursor-pointer w-full bg-[#16A34A] hover:bg-[#126B4B] transition rounded-lg py-3 text-white font-bold text-xl shadow-md hover:shadow-lg transform hover:scale-105"
             >
               Entrar
             </button>

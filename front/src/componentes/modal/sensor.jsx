@@ -3,12 +3,12 @@ import axios from "axios";
 
 function ModalEditSensor({ sensor, onClose, onSave, onDelete }) {
   const [formData, setFormData] = useState({
-    sensorName: sensor.sensor,
-    macAddress: sensor.mac_address,
-    unidadeMed: sensor.unidade_med,
-    status: sensor.status ? "Ativo" : "Inativo",
-    latitude: sensor.latitude,
-    longitude: sensor.longitude,
+    sensorName: sensor?.sensor || "",
+    macAddress: sensor?.mac_address || "",
+    unidadeMed: sensor?.unidade_med || "",
+    status: sensor?.status ? "Ativo" : "Inativo",
+    latitude: sensor?.latitude || "",
+    longitude: sensor?.longitude || "",
   });
 
   const handleChange = (e) => {
@@ -22,50 +22,61 @@ function ModalEditSensor({ sensor, onClose, onSave, onDelete }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const updatedSensor = {
+    const sensorPayload = {
       sensor: formData.sensorName,
       mac_address: formData.macAddress,
       unidade_med: formData.unidadeMed,
-      status: formData.status === "Ativo" ? true : false,
+      status: formData.status === "Ativo",
       latitude: formData.latitude,
       longitude: formData.longitude,
     };
 
+    const token = localStorage.getItem("token");
+
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.put(
-        `http://127.0.0.1:8000/api/sensor/${sensor.id}/`,
-        updatedSensor,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      let response;
+      if (sensor?.id) {
+        response = await axios.put(
+          `http://127.0.0.1:8000/api/sensor/${sensor.id}/`,
+          sensorPayload,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      } else {
+        response = await axios.post(
+          `http://127.0.0.1:8000/api/sensores/`,
+          sensorPayload,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      }
+
+      console.log("Resposta da API:", response.data);
       onSave(response.data);
       onClose();
     } catch (error) {
-      console.error("Erro ao editar o sensor:", error);
+      console.error("Erro ao salvar o sensor:", error);
+      if (error.response) {
+        console.log("Erro de resposta:", error.response.data);
+      }
     }
   };
 
-const handleDelete = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    await axios.delete(`http://127.0.0.1:8000/api/sensor/${sensor.id}/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    
-    alert("Seu sensor foi excluído com sucesso!");
+  const handleDelete = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://127.0.0.1:8000/api/sensor/${sensor.id}/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    onDelete(sensor.id); 
-    onClose();
-  } catch (error) {
-    console.error("Erro ao excluir o sensor:", error);
-  }
-};
+      alert("Seu sensor foi excluído com sucesso!");
+
+      onDelete(sensor.id);
+      onClose();
+    } catch (error) {
+      console.error("Erro ao excluir o sensor:", error);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
@@ -181,7 +192,7 @@ const handleDelete = async () => {
               </button>
               <button
                 type="submit"
-                className="px-6 py-3 cursor-pointer bg-[#00c476] text-white font-bold hover:bg-[#126b4b] transition-transform duration-300 hover:scale-105 rounded-sm"
+                className="px-6 py-3 cursor-pointer text-white font-bold bg-[#16A34A] hover:bg-[#126B4B] transition-transform duration-300 hover:scale-105 rounded-sm"
               >
                 Salvar
               </button>

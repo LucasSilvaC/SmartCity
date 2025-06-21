@@ -28,7 +28,7 @@ export default function Successful({ message, type, onClose }) {
         </p>
         <button
           onClick={onClose}
-          className="w-4/5 cursor-pointer h-12 rounded-lg border-2 border-green-600 bg-transparent text-white font-semibold hover:bg-green-600 hover:shadow-lg transition duration-300 ease-in-out"
+          className="w-4/5 cursor-pointer h-12 rounded-lg border-2 border-green-600 bg-transparent text-white font-semibold hover:bg-[#126B4B] hover:shadow-lg transition duration-300 ease-in-out"
           aria-label="Fechar modal"
         >
           OK

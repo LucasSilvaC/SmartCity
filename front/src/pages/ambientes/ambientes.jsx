@@ -6,6 +6,7 @@ import Panel from "../../componentes/sensores/panel/panel_ambientes";
 import senai_map from "../../../public/senai_map.png";
 import Line from "../../componentes/sensores/line/line";
 import Card from "../../componentes/sensores/card/card_ambiente";
+import ModalEditAmbiente from "../../componentes/modal/ambiente";
 import { BsBuilding } from "react-icons/bs";
 
 function formatTempoDecorrido(segundos) {
@@ -23,16 +24,15 @@ export default function Ambientes() {
   const [ambientes, setAmbientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [modalOpen, setModalOpen] = useState(false);
+  const [ambienteToEdit, setAmbienteToEdit] = useState(null);
   const [startIndex, setStartIndex] = useState(0);
   const [ultimaAtualizacao, setUltimaAtualizacao] = useState(Date.now());
   const [tempoDesdeAtualizacao, setTempoDesdeAtualizacao] = useState(0);
-
   const [ambientesNaTabela, setAmbientesNaTabela] = useState([]);
 
   const intervaloTrocaRef = useRef(null);
   const intervaloTempoRef = useRef(null);
-
   const limitTabela = 8;
 
   useEffect(() => {
@@ -107,8 +107,32 @@ export default function Ambientes() {
     ambientesVisiveis.push(ambientes[idx]);
   }
 
+  const handleOpenModal = (ambiente = null) => {
+    setAmbienteToEdit(ambiente);
+    setModalOpen(true);
+  };
+
+  const handleSaveAmbiente = (ambienteSalvo) => {
+    if (ambienteToEdit) {
+      setAmbientes((prev) =>
+        prev.map((a) => (a.id === ambienteSalvo.id ? ambienteSalvo : a))
+      );
+    } else {
+      setAmbientes((prev) => [...prev, ambienteSalvo]);
+    }
+    setModalOpen(false);
+  };
+
   return (
     <>
+      {modalOpen && (
+        <ModalEditAmbiente
+          ambiente={ambienteToEdit}
+          onClose={() => setModalOpen(false)}
+          onSave={handleSaveAmbiente}
+        />
+      )}
+
       <div className="fixed inset-0 -z-10 overflow-hidden bg-[#191b1c]">
         <img
           src={senai_map}
@@ -132,6 +156,15 @@ export default function Ambientes() {
         </section>
       </main>
 
+      <div className="flex justify-center mb-4 mt-6 px-4">
+        <button
+          onClick={() => handleOpenModal(null)}
+          className="px-6 py-3 bg-[#16A34A] text-white font-bold hover:bg-[#126B4B] transition-transform duration-300 hover:scale-105 rounded-sm"
+        >
+          + Adicionar Ambiente
+        </button>
+      </div>
+
       <section aria-label="Tempo desde a última atualização" className="mt-4">
         <Line text={formatTempoDecorrido(tempoDesdeAtualizacao)} />
       </section>
@@ -145,7 +178,7 @@ export default function Ambientes() {
         {!loading &&
           !error &&
           ambientesVisiveis.map((ambiente) => (
-            <article key={ambiente.id}>
+            <article key={ambiente.id} onClick={() => handleOpenModal(ambiente)} className="cursor-pointer">
               <Card
                 sig={ambiente.sig}
                 descricao={ambiente.descricao}
@@ -154,7 +187,8 @@ export default function Ambientes() {
                 Icon={BsBuilding}
               />
             </article>
-          ))}
+          ))
+        }
       </section>
     </>
   );

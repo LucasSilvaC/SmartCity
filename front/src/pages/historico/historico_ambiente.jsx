@@ -76,7 +76,8 @@ export default function HistoricoAmbiente() {
           Histórico de Ambientes
         </h1>
 
-        <section className="flex justify-center mb-6">
+        <section className="flex justify-center mb-6 flex-col items-center">
+          <label className="text-white text-xl">Nome do ambiente</label>
           <input
             type="text"
             placeholder="Buscar por nome ou sigla..."
