@@ -19,16 +19,47 @@ function ModalEditSensor({ sensor, onClose, onSave, onDelete }) {
     }));
   };
 
+  const isFormValid = () => {
+    if (!formData.sensorName.trim()) {
+      alert("O nome do sensor é obrigatório.");
+      return false;
+    }
+
+    if (!formData.macAddress.trim()) {
+      alert("O MAC Address é obrigatório.");
+      return false;
+    }
+
+    if (!formData.unidadeMed) {
+      alert("Selecione a unidade de medição.");
+      return false;
+    }
+
+    if (!formData.latitude || isNaN(formData.latitude)) {
+      alert("Latitude inválida.");
+      return false;
+    }
+
+    if (!formData.longitude || isNaN(formData.longitude)) {
+      alert("Longitude inválida.");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isFormValid()) return;
 
     const sensorPayload = {
       sensor: formData.sensorName,
       mac_address: formData.macAddress,
       unidade_med: formData.unidadeMed,
       status: formData.status === "Ativo",
-      latitude: formData.latitude,
-      longitude: formData.longitude,
+      latitude: parseFloat(formData.latitude),
+      longitude: parseFloat(formData.longitude),
     };
 
     const token = localStorage.getItem("token");
@@ -82,7 +113,7 @@ function ModalEditSensor({ sensor, onClose, onSave, onDelete }) {
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
       <div className="bg-gray-800 p-6 rounded-sm shadow-2xl w-[450px] max-w-lg">
         <h2 className="text-3xl text-white font-bold mb-6 text-center">
-          Editar Sensor
+          Sensor
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -117,14 +148,19 @@ function ModalEditSensor({ sensor, onClose, onSave, onDelete }) {
             <label htmlFor="unidadeMed" className="block text-sm font-medium text-gray-300">
               Unidade de Medição
             </label>
-            <input
-              type="text"
+            <select
               id="unidadeMed"
               name="unidadeMed"
               value={formData.unidadeMed}
               onChange={handleChange}
               className="w-full p-3 mt-2 border border-gray-600 rounded-sm bg-gray-800 text-white"
-            />
+            >
+              <option value="">Selecione...</option>
+              <option value="contador">Contador</option>
+              <option value="luminosidade">Luminosidade</option>
+              <option value="umidade">Umidade</option>
+              <option value="temperatura">Temperatura</option>
+            </select>
           </div>
 
           <div className="mb-4">
