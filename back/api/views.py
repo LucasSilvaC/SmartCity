@@ -143,24 +143,39 @@ class SensorListCreateView(ListCreateAPIView):
     filterset_fields = ['id', 'sensor', 'status', 'unidade_med', 'mac_address']
     search_fields = ['sensor', 'mac_address']
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Sensor
+from .serializers import SensorSerializer
+
 class SensorDetailView(APIView):
     def get(self, request, pk):
-        sensor = Sensor.objects.get(pk=pk)
-        serializer = SensorSerializer(sensor)
-        return Response(serializer.data)
+        try:
+            sensor = Sensor.objects.get(pk=pk)
+            serializer = SensorSerializer(sensor)
+            return Response(serializer.data)
+        except Sensor.DoesNotExist:
+            return Response({"error": "Sensor não encontrado."}, status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, pk):
-        sensor = Sensor.objects.get(pk=pk)
-        serializer = SensorSerializer(sensor, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            sensor = Sensor.objects.get(pk=pk)
+            serializer = SensorSerializer(sensor, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Sensor.DoesNotExist:
+            return Response({"error": "Sensor não encontrado."}, status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, pk):
-        sensor = Sensor.objects.get(pk=pk)
-        sensor.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        try:
+            sensor = Sensor.objects.get(pk=pk)
+            sensor.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Sensor.DoesNotExist:
+            return Response({"error": "Sensor já foi deletado ou não existe."}, status=status.HTTP_404_NOT_FOUND)
 
 def str_to_bool(val):
     if isinstance(val, str):
